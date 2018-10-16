@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css?tag=201706082042">
+<title>法本订单管理</title>
+<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js">
+</script>
+<link rel="import" href="bower_components/iron-icon/iron-icon.html"/>
+<link rel="import" href="bower_components/iron-icons/av-icons.html"/>
+<link rel="import" href="bower_components/iron-icons/iron-icons.html"/>
+<link rel="import" href="bower_components/iron-pages/iron-pages.html"/>
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html"/>
+</head>
+
+<body class="center white">
+
+<app-bar user="user" admining="true"></app-bar>
+
+<div class="center page-container">
+  <paper-tabs noink selected="0">
+    <paper-tab>待发货订单</paper-tab>
+    <paper-tab>待付款订单</paper-tab>
+    <paper-tab>已完成订单</paper-tab>
+    <paper-tab ng-show="isOrderAdmin()">按班级汇总</paper-tab>
+    <paper-tab ng-show="isOrderAdmin()">班级订书单</paper-tab>
+  </paper-tabs>
+  
+  <iron-pages selected="0">
+    <div>
+      <orders user="user" admin="true" status="0"></orders>
+    </div>
+    <div>
+      <orders ng-if="pageLoaded[1]" user="user" admin="true" status="1">
+      </orders>
+    </div>
+    <div>
+      <orders ng-if="pageLoaded[2]" user="user" admin="true" status="3"
+          year="year">
+      </orders>
+    </div>
+    <div>
+      <order-stats ng-if="pageLoaded[3]"></order-stats>
+    </div>
+    <div>
+      <book-lists ng-if="pageLoaded[4]"></book-lists>
+    </div>
+  </iron-pages>
+</div>
+
+<script type="text/javascript" src="order_admin.js?tag=201707031806"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<span class="padded-element">人数：{{userCount()}}</span>
+<input ng-if="isSysAdmin()" type="button" value="导出为tsv文件" ng-click="exportUsers()">
+<input type="button" value="分配学号..." ng-click="showSerialNumberDlg()">
+<a ng-if="exportedUrl" href="{{exportedUrl}}" download="user.txt">user.txt</a>
+<div class="users flex" ng-if="isNotEmpty">
+  <div class="css-table section odd-even">
+    <div class="css-table-row header">
+      <div class="css-table-cell"><strong>姓名</strong></div>
+      <div class="css-table-cell" ng-if="!isNewClass()"><strong>法名</strong></div>
+      <div class="css-table-cell"><strong>电子邮件</strong></div>
+      <div class="css-table-cell"><strong>电话</strong></div>
+      <div class="css-table-cell" ng-if="!isNewClass()"><strong>州</strong></div>
+      <div class="css-table-cell"><strong>入学年份</strong></div>
+      <div class="css-table-cell" ng-if="isNewClass()"><strong>入口</strong></div>
+      <div class="css-table-cell" ng-if="isNewClass()"><strong>已信,入微,YY,试麦</strong></div>
+      <div class="css-table-cell" ng-if="isNewClass()"><strong>功德会</strong></div>
+      <div class="css-table-cell"><strong>备注</strong></div>
+      <div class="css-table-cell"></div>
+    </div>
+    <div ng-repeat="user in users" class="css-table-row selectable users deletable"
+        ng-click="showInfo(user, $index)"
+        ng-class="{'selected': selected(user), 'admin': isAdmin(user)}">
+      <div class="css-table-cell compact-name-field">{{user.name}}</div>
+      <div class="css-table-cell compact-name-field" ng-if="!isNewClass()">{{user.nickname}}</div>
+      <div class="css-table-cell email">{{user.email}}</div>
+      <div class="css-table-cell">{{user.phone}}</div>
+      <div class="css-table-cell" ng-if="!isNewClass()">{{user.stateLabel}}</div>
+      <div class="css-table-cell" >{{user.start_year}}</div>
+      <div class="css-table-cell" ng-if="isNewClass()">{{entrances[user.entrance]}}</div>
+      <div class="css-table-cell" ng-if="isNewClass()">
+        <input type="checkbox" ng-model="user.enroll_tasks" title="欢迎信已发"
+            ng-click="updateEnroll(user)" bit-index="0">
+        <input type="checkbox" ng-model="user.enroll_tasks" title="已加入微信群"
+            ng-click="updateEnroll(user)" bit-index="1">
+        <input type="checkbox" ng-model="user.enroll_tasks" title="YY已经安装"
+            ng-click="updateEnroll(user)" bit-index="2">
+        <input type="checkbox" ng-model="user.enroll_tasks" title="YY试麦完成"
+            ng-click="updateEnroll(user)" bit-index="3">
+      </div>
+      <div class="css-table-cell" ng-if="isNewClass()">
+        <input type="checkbox" ng-model="user.enroll_tasks" title="功德会成员"
+            ng-click="updateEnroll(user)" bit-index="8" disabled>
+      </div>
+      <div class="css-table-cell comments">{{user.comments}}</div>
+      <div class="css-table-cell">
+        <iron-icon ng-if="isSysAdmin()" icon="icons:delete" title="删除"
+            ng-click="remove(user)" class="selectable delete-button">
+        </iron-icon>
+      </div>
+    </div>
+  </div>
+  <user-editor ng-if="editingUser" user="editingUser" class="padded-element compact-user"
+      style="margin-top: {{selectedTop}}px;" class-mates="userNames">
+  </user-editor>
+</div>
+

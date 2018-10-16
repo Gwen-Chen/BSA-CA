@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Redirecting</title>
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js">
+</script>
+<script type="text/javascript">
+(function(){
+  function getUrlParameter(name) {
+    var result = null;
+    var params = location.search.substr(1).split("&");
+    for (var i in params) {
+        var pair = params[i].split('=');
+        if (pair[0] === name) return pair[1];
+    }
+  }
+
+  var index = location.href.indexOf(location.pathname);
+  var url = location.href.substring(0, index);
+
+  emailjs.init("user_AZIJ32nwn6RJmV7EzdJy8");
+  emailjs.send("bicw_notifcation", "new_user_notification", {
+    name: decodeURIComponent(getUrlParameter("name")),
+    email: decodeURIComponent(getUrlParameter("email")),
+    url: url,
+    verify_url: url
+  })
+  .then(
+    function(response) {
+      location.href = "index.html";
+    }, 
+    function(error) {
+      location.href = "index.html";
+    }
+  );
+})();
+</script>
+</head>
+
+<body>
+Registered, redirecting...
+</body>
+</html>

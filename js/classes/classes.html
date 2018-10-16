@@ -1,0 +1,33 @@
+<div ng-switch="listType">
+  <div ng-switch-when="list" class="padded-element class-list">
+    <div class="center padded-element">
+      <select ng-options="year for year in years" ng-model="currentClass.year"
+          ng-change="yearChanged()">
+      </select>
+    </div>
+    <div ng-repeat="classInfo in classes" class="selectable">
+      <div ng-click="select(classInfo.id)" class="padded-element class-name"
+          ng-class="{'selected': currentClass.id == classInfo.id}">
+        {{classInfo.name}}
+      </div>
+    </div>
+    
+    <div class="padded-element" ng-if="isSysAdmin()">
+      <input type="button" value="开新班" ng-click="createNewClass()">
+    </div>
+    <div class="padded-element" ng-if="isSysAdmin()">
+      <input type="button" value="批量导入用户..." ng-click="showImportDialog = true">
+      <import-dialog show="showImportDialog" importer="user"></import-dialog>
+      <input type="button" value="导出本届用户" ng-click="exportUsers()">
+      <a ng-if="exportedUrl" href="{{exportedUrl}}" download="users.txt">users.txt</a>
+    </div>
+  </div>
+  <div ng-switch-default>
+     <select ng-options="year for year in years" ng-model="currentClass.year"
+         ng-change="yearChanged()">
+     </select>
+    <select ng-options="classes[value].name for value in classIds" ng-model="currentClass.id"
+        ng-change="select(currentClass.id)">
+    </select>
+  </div>
+</div>

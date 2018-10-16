@@ -1,0 +1,39 @@
+<link rel="import" href="bower_components/google-chart/google-chart.html"/>
+<div class="padded-element" ng-hide="hideTaskList">
+  <label>
+    选择一项任务：
+    <select ng-options="value.name for value in tasks" ng-model="selectedTask">
+    </select>
+  </label>
+</div>
+
+<div class="flex">
+  <google-chart cols='[{"label": "Data", "type": "string"},{"label": "{{sum}}", "type": "number"}]'
+      options='{{chartOptions}}' rows='{{histogram}}'>
+  </google-chart>
+	<div class="css-table odd-even center">
+	  <div class="css-table-row header">
+	    <div class="css-table-cell">时间</div>
+	    <div class="css-table-cell" ng-if="selectedTask.sub_tasks">子任务</div>
+	    <div class="css-table-cell">数量</div>
+	    <div class="css-table-cell" ng-if="selectedTask.duration">用时</div>
+	    <div class="css-table-cell">累计数量</div>
+	    <div class="css-table-cell" ng-if="selectedTask.duration">累计用时</div>
+	    <div class="css-table-cell">删除</div>
+	  </div>
+	  <div ng-repeat="record in task_history" class="css-table-row">
+	    <div class="css-table-cell">{{record.ts}}</div>
+	    <div class="css-table-cell" ng-if="selectedTask.sub_tasks">
+	      第{{record.sub_index + 1}}修法
+	    </div>
+	    <div class="css-table-cell">{{record.count}}</div>
+	    <div class="css-table-cell" ng-if="selectedTask.duration">{{record.duration}}</div>
+	    <div class="css-table-cell">{{record.sum}}</div>
+	    <div class="css-table-cell" ng-if="selectedTask.duration">{{record.totalDuration}}</div>
+	    <div class="css-table-cell">
+	      <iron-icon icon="icons:delete" title="删除" ng-click="remove(record)" class="selectable">
+	      </iron-icon>
+	    </div>
+	  </div>
+	</div>
+</div>

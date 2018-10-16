@@ -1,0 +1,140 @@
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="bower_components/paper-progress/paper-progress.html">
+<paper-dialog id="selector">
+  <h2>选择文件</h2>
+  <label>选择需要导入的tsv文件
+    <input type="file" accept=".tsv" file="file">
+  </label>
+  <paper-button dialog-dismiss raised autofocus>关闭</paper-button>
+  <paper-button dialog-confirm raised autofocus ng-click="analyze()">分析</paper-button>
+</paper-dialog>
+
+<paper-dialog id="analysis">    
+  <h2>文件分析结果</h2>
+  <paper-button dialog-confirm raised autofocus>关闭</paper-button>
+  <paper-button dialog-confirm raised autofocus ng-click="preview()">预览</paper-button>
+  <paper-progress value="{{processed}}" max="{{max}}" class="preview-progress padded-element">
+  </paper-progress>
+	<div ng-show="result.records.length">
+	  <div>正确解析的数据({{result.records.length}}条)</div>
+	  <div class="import-analysis">
+	    <div class="padded-element css-table odd-even">
+	      <div class="css-table-row">
+	        <div ng-repeat="header in result.headers" class="css-table-cell">{{header}}</div>
+	      </div>
+	      <div ng-repeat="record in result.records" class="css-table-row">
+	        <div ng-repeat="column in result.columns" class="css-table-cell compact">
+	             {{record[column + '_label'] || record[column]}}
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    
+  <div ng-show="result.skipped.length">
+    <div>格式有问题或者email重复的数据({{result.skipped.length}}条)</div>
+      <div class="import-analysis">
+      <div class="padded-element css-table odd-even">
+          <div class="css-table-row">
+            <div ng-repeat="header in result.headers" class="css-table-cell">{{header}}</div>
+          </div>
+        <div ng-repeat="line in result.skipped track by $index" class="css-table-row">
+          <div ng-repeat="word in line.split('\t') track by $index" class="css-table-cell">{{word}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+ </paper-dialog>
+ 
+<paper-dialog id="preview">
+  <h2>预览更改</h2>
+  <div>
+    修改: <span class="diff-modified legend">&nbsp;</span>
+  </div>
+  <div>
+    新增: <span class="diff-added legend">&nbsp;</span>
+  </div>
+
+  <div>正在和服务器已有数据比较。已经比较{{processed}}条。不同的有{{changed}}条。</div>  
+  <paper-progress value="{{processed}}" max="{{result.records.length}}"
+      class="preview-progress padded-element">
+  </paper-progress>
+  <paper-button dialog-confirm raised autofocus>关闭</paper-button>
+  <paper-button dialog-confirm raised autofocus ng-click="submit()">提交</paper-button>
+
+  <div ng-show="result.records.length" class="preview-section">
+    <div class="padded-element css-table odd-even">
+      <div class="css-table-row">
+        <div class="css-table-cell">
+          <label>全选
+            <input type="checkbox" ng-click="toggleAll()" checked>
+          </label>
+        </div>
+        <div ng-repeat="header in result.headers" class="css-table-cell">{{header}}</div>
+      </div>
+      <div class="css-table-row">
+        <div class="css-table-cell"></div>
+        <div ng-repeat="column in result.columns" class="css-table-cell">{{column}}</div>
+      </div>
+      <div ng-repeat="record in result.records" class="css-table-row" ng-if="record.changed">
+        <div class="css-table-cell">
+          <input type="checkbox" ng-model="record.checked">
+        </div>
+        <div ng-repeat="column in result.columns"
+            class="css-table-cell compact {{diffType(record, column)}}">
+            <div ng-switch="diffType(record, column)">
+              <div ng-switch-when="diff-modified">
+                <div class="old-data">{{record.oldData[column]}}</div>
+                <div>{{record[column + '_label'] || record[column]}}</div>
+              </div>
+              <div ng-switch-default>
+                {{record[column + '_label'] || record[column]}}
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</paper-dialog>
+
+<paper-dialog id="submit">
+  <h2>保存</h2>
+  <div>正在保存数据，已经保存{{submitted}}条。{{errors}}条出错。</div>  
+  <paper-progress value="{{processed}}" max="{{result.records.length}}"
+      class="preview-progress padded-element">
+  </paper-progress>
+  <paper-button dialog-confirm raised autofocus>关闭</paper-button>
+  <paper-button dialog-confirm raised ng-click="refresh()">刷新页面</paper-button>
+
+  <div ng-show="result.records.length" class="preview-section">
+    <div class="padded-element css-table odd-even">
+      <div class="css-table-row">
+        <div class="css-table-cell"></div>
+        <div ng-repeat="header in result.headers" class="css-table-cell">{{header}}</div>
+      </div>
+      <div class="css-table-row">
+        <div class="css-table-cell"></div>
+        <div ng-repeat="column in result.columns" class="css-table-cell">{{column}}</div>
+      </div>
+      <div ng-repeat="record in result.records" class="css-table-row" ng-if="record.changed">
+        <div class="css-table-cell" ng-switch="record.submitted" ng-if="record.checked">
+          <iron-icon ng-switch-when="true" icon="icons:done"></iron-icon>
+          <iron-icon ng-switch-default icon="icons:error" title="{{record.error}}"></iron-icon>
+        </div>
+        <div ng-repeat="column in result.columns"
+            class="css-table-cell compact {{diffType(record, column)}}">
+            <div ng-switch="diffType(record, column)">
+              <div ng-switch-when="diff-modified">
+                <div class="old-data">{{record.oldData[column]}}</div>
+                <div>{{record[column]}}</div>
+              </div>
+              <div ng-switch-default>
+                {{record[column + '_label'] || record[column]}}
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</paper-dialog>

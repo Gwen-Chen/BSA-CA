@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css?tag=201712052203">
+<title>学修记录</title>
+<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js">
+</script>
+<link rel="import" href="bower_components/iron-icon/iron-icon.html"/>
+<link rel="import" href="bower_components/iron-icons/av-icons.html"/>
+<link rel="import" href="bower_components/iron-icons/iron-icons.html"/>
+<link rel="import" href="bower_components/iron-pages/iron-pages.html"/>
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html"/>
+</head>
+
+<body class="center wide-body">
+
+<app-bar user="user"></app-bar>
+
+<div class="center page-container">
+  <paper-tabs noink selected="0">
+    <paper-tab>考勤登记</paper-tab>
+    <paper-tab>个人信息</paper-tab>
+    <paper-tab>历史报数</paper-tab>
+    <paper-tab>考试成绩</paper-tab>
+  </paper-tabs>
+  
+  <iron-pages selected="0">
+    <div>
+      <!-- Don't use ng-switch here, it breaks the iron page for FireFox, Safari, etc. -->
+      <setup-tasks ng-show="isFirstClass()" user="user" class="left">
+      </setup-tasks>
+      <tasks ng-hide="isFirstClass()" class-info="user.classInfo" class="left">
+      </tasks>
+      <schedule-tasks class="left" user="user"></schedule-tasks>
+    </div>
+    <div>
+      <div class="center">
+        <h1>个人信息</h1>
+        <user-editor ng-if="pageLoaded[1]" user="user"></user-editor>
+      </div>
+    </div>
+    <div>
+      <task-history ng-if="pageLoaded[2]" user="user"></task-history>
+    </div>
+    <div>
+      <score ng-if="pageLoaded[3]"></score>
+    </div>
+  </iron-pages>
+</div>
+
+<script type="text/javascript" src="index.js?tag=201806182223"></script>
+</body>
+</html>

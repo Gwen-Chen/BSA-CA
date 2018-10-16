@@ -1,0 +1,64 @@
+<div ng-if="confirming">
+  <h2>确认收货地址和联系方式</h2>
+  <hr>
+  <div class="padded-element">
+    <address-editor user="user" with-contact="true"></address-editor>
+  </div>
+  <div class="padded-element">
+    <label>
+      <input type="checkbox" ng-model="addrEditor.editing">
+      修改送货地址
+    </label>
+  </div>
+  <div ng-if="addrEditor.editing" class="padded-element">
+    <address-editor editing="true" user="user" with-contact="true">
+    </address-editor>
+  </div>
+</div>
+<div ng-if="cart.size">
+  <div class="css-table shopping-cart-list">
+    <div class="css-table-row">
+      <div class="css-table-cell"></div>
+      <div class="css-table-cell"></div>
+      <div class="css-table-cell">单价</div>
+      <div class="css-table-cell">国际运费预计</div>
+      <div class="css-table-cell">数量</div>
+      <div class="css-table-cell"></div>
+    </div>
+    <div ng-repeat="item in cart.items" class="css-table-row top-border deletable">
+      <div class="css-table-cell">
+        <img src="{{item.image}}" class="item-image small">
+      </div>
+      <div class="css-table-cell">
+        <h3>{{item.name}}</h3> by {{item.producer}}
+      </div>
+      <div class="css-table-cell">${{item.price}}</div>
+      <div class="css-table-cell">${{item.int_shipping}}</div>
+      <div class="css-table-cell">
+        <input type="number" min="1" ng-model="item.count" ng-change="cart.update()">
+      </div>
+      <div class="css-table-cell">
+        <iron-icon icon="delete" ng-click="cart.remove(item.id)" class="delete-button"
+            title="删除">
+        </iron-icon>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="right">
+    <div class="center-align flex">
+      <div class="h-padded-element">
+        总价 ({{cart.size}} items): ${{cart.subTotal}}
+      </div>
+      <div class="h-padded-element">
+        国际运费: ${{cart.int_shipping}}
+      </div>
+      <div class="h-padded-element">
+        运费: ${{cart.shipping}}
+      </div>
+      <div class="yellow-button check-out-button center-align" ng-click="checkOut()">
+        {{confirming ? '提交订单' : '结账'}}
+      </div>
+    </div>
+  </div>
+</div>

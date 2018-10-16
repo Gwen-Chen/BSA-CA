@@ -1,0 +1,28 @@
+<div ng-if="isNotEmpty">
+  <h2 class="padded-element">学修任务安排</h2>
+  <zb-sync-button class-id="classId" type="tasks" title="从学院读取任务安排..."
+      class="padded-element">
+  </zb-sync-button>
+  <div class="section css-table odd-even">
+    <div class="css-table-row header">
+      <div class="css-table-cell">任务</div>
+      <div class="css-table-cell">开始学期</div>
+      <div class="css-table-cell">报数学期</div>
+    </div>
+    <div ng-repeat="task in tasks" class="css-table-row">
+      <div class="css-table-cell">{{task.name}}</div>
+      <div class="css-table-cell">
+        <select ng-options="termLabels[half_term] for half_term in half_terms"
+            ng-model="task.starting_half_term"
+            ng-change="updateTaskArrange(task)">
+        </select>
+      </div>
+      <div class="css-table-cell">
+        <select ng-options="termLabels[half_term] for half_term in half_terms"
+            ng-model="task.report_half_term"
+            ng-change="updateTaskArrange(task)">
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

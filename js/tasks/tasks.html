@@ -1,0 +1,54 @@
+<link rel="import" href="bower_components/paper-progress/paper-progress.html">
+<div ng-if="isNotEmpty">
+  <div ng-repeat="task in tasks" class="padded-element">
+    <div class="task">
+      <div class="header section-header">
+        <span ng-switch="task.subTaskNames != null">
+          <select ng-switch-when="true"
+              ng-options="task.subTaskNames[index] for index in task.sub_indexes"
+              ng-model="task.lastRecord.sub_index">
+          </select>
+          <span ng-switch-default>{{task.name}}</span>
+        </span>
+        <span ng-if="task.sub_tasks">
+          第
+          <select ng-options="value+1 for value in task.sub_indexes"
+              ng-model="task.lastRecord.sub_index" ng-change="subTaskSelected(task)">
+          </select>
+          修法
+        </span>
+      </div>
+      <div ng-switch="task.lastRecord.sum > 0">
+        <div ng-switch-when="true">
+          <div>累计报数：{{task.lastRecord.sum}}</div>
+          <div ng-if="task.duration">累计时间：{{task.lastRecord.totalDuration}}</div>
+          <div>上次报数：{{task.lastRecord.count}}</div>
+          <div>({{toLocalTime(task.lastRecord.ts)}})</div>
+          <progress-bar value="{{task.lastRecord.sum}}" max="{{task.max}}" class="task-progress">
+          <progress-bar>
+        </div>
+        <div ng-switch-default>暂时没有学修记录。</div>
+      </div>
+    
+      <form name="reportform">
+        <label>
+          本次数量:
+          <input class="count-input" type="number" ng-model="task.record.count" required min="1">
+        </label>
+        <div>
+          <label ng-if="task.duration">
+            本次用时:
+            <input class="count-input" type="number" ng-model="task.record.duration" required
+                min="1">分钟
+          </label>
+        </div>
+        <input type="submit" value="报数" ng-click="reportform.$valid && reportTask(task)"
+            ng-disabled="reporting">
+        <iron-icon icon="icons:delete" title="撤销上一次报数" ng-click="removeLastRecord(task)"
+            class="selectable">
+        </iron-icon>
+      </form>
+      <div ng-if="error">{{error}}</div>
+    </div>
+  </div>
+</div>

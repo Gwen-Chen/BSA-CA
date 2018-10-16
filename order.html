@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css?tag=201705012127">
+<title>法本订单</title>
+<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js">
+</script>
+<link rel="import" href="bower_components/iron-icon/iron-icon.html"/>
+<link rel="import" href="bower_components/iron-icons/av-icons.html"/>
+<link rel="import" href="bower_components/iron-icons/iron-icons.html"/>
+<link rel="import" href="bower_components/iron-pages/iron-pages.html"/>
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html"/>
+<link rel="import" href="bower_components/paper-toast/paper-toast.html"/>
+</head>
+
+<body class="center white">
+
+<app-bar user="user"></app-bar>
+
+<div class="center page-container">
+  <paper-tabs noink selected="0">
+    <paper-tab>浏览所有法本</paper-tab>
+    <paper-tab>
+		  <div class="right padded-element shopping-cart">
+		    <span class="cart-size" ng-if="cart.size">{{cart.size}}</span>
+		    <iron-icon icon="shopping-cart"></iron-icon>
+		    <span>购物车</span>
+		  </div>
+    </paper-tab>
+    <paper-tab>我的订单<span>(付款)</span></paper-tab>
+  </paper-tabs>
+  
+  <iron-pages selected="0">
+    <div>
+      <item-list cart="cart" user="user"></item-list>
+    </div>
+    <div>
+      <shopping-cart ng-if="pageLoaded[1]" cart="cart" user="user">
+      </shopping-cart>
+    </div>
+    <div>
+      <orders ng-if="pageLoaded[2]" user="user"></orders>
+    </div>
+  </iron-pages>
+</div>
+
+<paper-toast id="toast0" text="订单提交成功！将跳转到“我的订单”中查看"></paper-toast>
+
+<script type="text/javascript" src="order.js?tag=201707050736"></script>
+</body>
+</html>

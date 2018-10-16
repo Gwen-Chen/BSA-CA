@@ -1,0 +1,21 @@
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+
+<paper-dialog id="create-course-dialog" modal>
+  <h1>新建课程</h1>
+  <div>
+    <paper-input id="course-name-input" placeholder="输入新的课程名...">
+    </paper-input>
+  </div>
+  <div class="course-category-selection">
+    <label>
+      选择课程类别: 
+      <select ng-options="categories[id].name for id in categoryIds"
+          ng-model="category">
+      </select>
+    </label>
+  </div>
+  <div class="buttons">
+    <paper-button dialog-dismiss>取消</paper-button>
+    <paper-button dialog-dismiss ng-click="create()">新建</paper-button>
+  </div>
+</paper-dialog>

@@ -1,0 +1,29 @@
+<div class="section group-editing padded-element">
+  <div>课程：
+    <course-groups group-id="group.course_group" class="inline"
+        on-change="courseGroupChanged(courses)">
+    </course-groups>
+  </div>
+  <div>课程2(可选)：
+    <course-groups group-id="group.course_group2" class="inline"
+        on-change="courseGroupChanged(courses, true)">
+    </course-groups>
+    <label>顺序安排
+      <input type="checkbox" ng-model="sequential"
+          title="勾上表示先上完所有课程1再上课程2，不勾上表示轮流着同时推进"
+          ng-change="mergeTypeChanged()">
+    </label>
+  </div>
+  <div>
+    开始时间：<input type="date" ng-model="group.start_time" timestamp>
+    中期报数：第<input type="number" max="26" min="1" ng-model="group.mid_week">周
+    总第<select ng-options="value for value in terms" ng-model="group.term"></select>学期
+  </div>
+  <div>限制性课程：
+    <course-groups group-id="group.limited_course_group" class="inline"
+        on-change="limitedGroupChange(courses)">
+    </course-groups>
+  </div>
+  <input type="button" value="Cancel" ng-click="reloadGroup()">
+  <input type="submit" value="Save" ng-click="saveGroup(group)">
+</div>

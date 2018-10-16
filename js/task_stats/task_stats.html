@@ -1,0 +1,86 @@
+<div class="padded-element">
+  <label>
+    选择一项任务：
+    <select ng-options="value.name for value in tasks" ng-model="selectedTask">
+    </select>
+  </label>
+  <iron-icon icon="editor:border-color" class="small-icon selectable" ng-click="expand()"
+      ng-show="false">
+  </iron-icon>
+</div>
+<div ng-switch="selectedTask.sub_tasks == 0">
+  <div ng-switch-when="true" class="css-table task-stats odd-even">
+    <div class="css-table-row header">
+      <div class="css-table-cell">姓名</div>
+      <div class="css-table-cell">进度</div>
+      <div class="css-table-cell">数目</div>
+      <div class="css-table-cell">添加报数</div>
+    </div>
+    <div ng-repeat="user in task_stats" class="css-table-row selectable"
+        ng-click="select(user)" ng-class="{'selected': selected(user)}">
+      <div class="css-table-cell">{{user.name}}</div>
+      <div class="css-table-cell">
+        <progress-bar value="{{user.stats[0].sum}}" max="{{selectedTask.max}}" class="task-stats">
+        <progress-bar>
+      </div>
+      <div class="css-table-cell">
+        {{user.stats[0].sum}}
+        <span ng-if="user.stats[0].duration">({{user.stats[0].duration}}分钟)</span>
+      </div>
+      <div class="css-table-cell">
+        <input type="number" ng-model="user.count" class="count-input" placeholder="数量">
+        <input ng-if="selectedTask.duration" type="number" ng-model="user.duration"
+            class="count-input" placeholder="用时(分钟)">
+        <input type="button" value="报数" ng-click="reportTask(user)">
+      </div>
+    </div>
+  </div>
+  <div ng-switch-default>
+    <div class="padded-element">
+      <input ng-repeat="page in pages" type="button" ng-click="gotoPage(page)"
+          value="第{{(page + 1) * pageSize}}修法">
+    </div>
+    <div class="css-table task-stats odd-even">
+      <div class="css-table-row header">
+        <div class="css-table-cell">姓名</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-left" ng-click="page(-1)">
+          </iron-icon>
+        </div>
+        <div class="css-table-cell" ng-repeat="sub_index in range()">
+          第{{sub_index+1}}修法
+        </div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right" ng-click="page(+1)">
+          </iron-icon>
+        </div>
+        <div class="css-table-cell">添加报数</div>
+      </div>
+      <div ng-repeat="user in task_stats" class="css-table-row selectable"
+          ng-click="select(user)" ng-class="{'selected': selected(user)}">
+        <div class="css-table-cell">{{user.name}}</div>
+        <div class="css-table-cell"></div>
+        <div class="css-table-cell task-bar-container"
+            ng-repeat="sub_index in range()">
+          <div class="task-bar" style="height:{{user.stats[sub_index].sum * 10}}%"
+              title="第{{sub_index+1}}修法">
+            <span ng-if="user.stats[sub_index]" class="task-bar-title">
+              {{user.stats[sub_index].sum}} ({{user.stats[sub_index].duration}})
+            </span>
+          </div>
+        </div>
+        <div class="css-table-cell"></div>
+        <div class="css-table-cell">
+          <input type="number" ng-model="user.sub_index" class="count-input" placeholder="第几修法">
+          <input type="number" ng-model="user.count" class="count-input" placeholder="数量">
+          <input ng-if="selectedTask.duration" type="number" ng-model="user.duration"
+              class="count-input" placeholder="用时(分钟)">
+          <input type="button" value="报数" ng-click="reportTask(user)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<task-history ng-if="selectedUser" user="selectedUser" selected-task="selectedTask"
+    hide-task-list="true" class="padded-element">
+</task-history>

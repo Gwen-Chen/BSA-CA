@@ -1,0 +1,27 @@
+runtime: php55
+api_version: 1
+
+handlers:
+# Serve images as static resources.
+- url: /(.+\.(html|js|css|ico|jpg))$
+  static_files: \1
+  upload: .+\.(html|js|css|ico|jpg)$
+  secure: always
+# Serve php scripts.
+- url: /(php/.+\.php)$
+  script: \1
+  secure: always
+- url: /(images/.+\.jpg)$
+  static_files: \1
+  upload: images/.+\.jpg
+  secure: always
+- url: /
+  static_files: index.html
+  upload: /
+  secure: always
+
+env_variables:
+# Edit MYSQL connection variables before deployment
+  MYSQL_SOCKET: /cloudsql/INSTANCE_CONNECTION_NAME
+  MYSQL_USERNAME: root
+  MYSQL_PASSWORD: ''

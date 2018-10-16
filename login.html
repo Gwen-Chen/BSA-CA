@@ -1,0 +1,40 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css"></link>
+<title>登录</title>
+</head>
+
+<body>
+
+	<div class="login-page center">
+		<h1 class="center">Member Login</h1>
+	
+		<div class="css-table center">
+			<form class="login-form" action="php/login.php" method="post">
+				<fieldset>
+					<div class="css-table-row">
+						<label class="css-table-cell" for="email">Email:</label>
+						<input class="css-table-cell" type="text" name="email" id="email"
+						    autofocus>
+					</div>
+					<div class="css-table-row">
+						<label class="css-table-cell" for="password">Password:</label>
+						<input class="css-table-cell" type="password" name="password"
+						    id="password">
+					</div>
+          <input type="hidden" name="redirect-url" id="redirect-url">
+					<input type="submit" name="login" id="login" value="Login" />
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+	  var path = location.search.split('=')[1] || '';
+	  if (/[a-z_]{5,10}\.html/.test(path)) {
+	    document.querySelector('#redirect-url').value = path;
+	  }
+	</script>
+</body>
+
+</html>

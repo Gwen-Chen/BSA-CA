@@ -1,0 +1,88 @@
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+
+<paper-dialog id="course-editor-dlg" no-cancel-on-esc-key modal>
+  <h1>课程设置</h1>
+  <iron-icon icon="add-circle" class="add-icon clickable add-course-button"
+      ng-click="createGroup()"
+      title="添加课程">
+  </iron-icon>
+  <div class="course-editor-content">
+    <div>
+      <div class="field">
+        <input type="text" ng-model="coursePrefix" placeholder="输入课程名查找..."
+            ng-change="search()">
+      </div>
+      <div class="course-groups">
+        <div ng-repeat="category in categories" class="course-category">
+          <div ng-click="category.expanded = !category.expanded"
+              class="clickable">
+            {{category.name}}
+            <iron-icon class="selectable expandable" icon="chevron-right"
+                ng-class="{'expanded': category.expanded}">
+            </iron-icon>
+          </div>
+          <div ng-repeat="course_group in course_groups"
+              class="padded-element selectable"
+              ng-click="select(course_group.id)"
+              ng-class="{'selected': course_group.id == selected.id}"
+              ng-if="category.expanded && course_group.category == category.id">
+            {{course_group.name}}
+          </div>
+          <div class="padded-element selectable"
+              ng-click="createGroup(category.id)"
+              ng-if="category.expanded">
+            添加课程<iron-icon icon="add" title="添加课程"></iron-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="course-right-panel padded-element">
+      <div>
+        <editable-label label="名称" value="group.name"
+            on-change="updateGroup(group)">
+        </editable-label>
+        <iron-icon icon="icons:delete" title="删除"
+            ng-click="removeGroup(group)" class="padded-element selectable">
+        </iron-icon>
+      </div>
+      <div>
+        <label>
+          类别
+          <select ng-options="categories[id].name for id in categoryIds"
+              ng-model="group.category" ng-change="updateGroup(group)">
+          </select>
+        </label>
+      </div>
+      <div class="css-table odd-even course-list" ng-show="group.id">
+        <div class="append-course-icon" title="添加" ng-click="appendCourse(group)">
+          <iron-icon icon="icons:add"></iron-icon>
+        </div>
+        <div class="css-table-row header">
+          <div class="css-table-cell"><strong>节数</strong></div>
+          <div class="css-table-cell course-name"><strong>上课内容</strong></div>
+          <div class="css-table-cell"></div>
+        </div>
+      
+        <div ng-repeat="course in group.courses" class="css-table-row deletable">
+          <div class="css-table-cell">{{course.id ? '' : '*'}}{{$index + 1}}</div>
+          <div class="css-table-cell">
+            <editable-label value="course.name" on-change="updateCourse(course)">
+            </editable-label>
+          </div>
+          <div class="css-table-cell">
+            <iron-icon icon="icons:delete" title="删除" ng-click="removeCourse(course)"
+                class="selectable delete-button">
+            </iron-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="buttons">
+    <paper-button dialog-dismiss>取消</paper-button>
+    <paper-button ng-click="saveNewCourses()" ng-disabled="!hasNewCourses()"
+        affirmative>
+      保存
+    </paper-button>
+  </div>
+</paper-dialog>

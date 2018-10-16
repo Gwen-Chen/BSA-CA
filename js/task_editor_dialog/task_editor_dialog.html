@@ -1,0 +1,62 @@
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+
+<paper-dialog id="task-editor-dlg" noCancelOnEscKey="true" modal>
+  <h2>任务设置</h2>
+  <paper-dialog-scrollable class="flex">
+    <div class="tasks css-table">
+      <div class="css-table-row">
+        <div class="css-table-cell">类别</div>
+        <div class="css-table-cell">任务名称</div>
+        <div class="css-table-cell">任务总数</div>
+        <div class="css-table-cell">是否计时</div>
+        <div class="css-table-cell">子任务数</div>
+        <div class="css-table-cell">开始半学期</div>
+        <div class="css-table-cell">开始报数半学期</div>
+        <div class="css-table-cell">智悲id</div>
+        <div class="css-table-cell"></div>
+      </div>
+      <div ng-repeat="task in tasks" class="css-table-row">
+        <div class="css-table-cell">
+          <departments department-id="task.department_id" on-change="update(task, department)">
+          </departments>
+        </div>
+        <div class="css-table-cell">
+          <editable-label value="task.name" on-change="update(task)" class="padded-element">
+          </editable-label>
+        </div>
+        <div class="css-table-cell">
+          <editable-label value="task.max" on-change="update(task)" class="padded-element">
+          </editable-label>
+        </div>
+        <div class="css-table-cell">
+          <select ng-options="['否', '是'][value] for value in [0, 1]" ng-model="task.duration"
+              ng-change="update(task)" class="padded-element">
+          </select>
+        </div>
+        <div class="css-table-cell">
+          <input type="number" ng-model="task.sub_tasks" ng-blur="update(task)">
+        </div>
+        <div class="css-table-cell">
+          <input type="number" min="0" max="20" ng-model="task.starting_half_term"
+              ng-blur="update(task)">
+        </div>
+        <div class="css-table-cell">
+          <input type="number" min="0" max="20" ng-model="task.report_half_term"
+              ng-blur="update(task)">
+        </div>
+        <div class="css-table-cell">
+          <input type="text" ng-model="task.zb_name" ng-blur="update(task)">
+        </div>
+        <div class="css-table-cell">
+          <iron-icon icon="icons:delete" title="删除" ng-click="remove(task)"
+              class="selectable padded-element" ng-if="task.id">
+          </iron-icon>
+        </div>
+      </div>
+    </div>
+  </paper-dialog-scrollable>
+  <div class="buttons">
+    <paper-button dialog-dismiss>关闭</paper-button>
+  </div>
+</paper-dialog>
+

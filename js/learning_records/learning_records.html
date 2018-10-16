@@ -1,0 +1,112 @@
+<navigate-bar class="right padded-element" navigate="navigate(direction)"></navigate-bar>
+<div class="learning-groups">
+  <div ng-repeat="group in schedule_groups">
+    <div ng-switch="attendence" class="section">
+      <div ng-switch-when="true">
+        <h3 class="inline table-title">第{{group.term}}学期</h3>
+        <div class="css-table odd-even">
+          <div class="css-table-row header">
+            <div ng-if="group.schedules" class="css-table-cell name-field"></div>
+            <div ng-repeat="schedule in group.schedules" ng-if="!vacation(schedule)"
+                class="css-table-cell">
+              {{group.courses[schedule.course_id].name}}
+              <div ng-if="schedule.course_id2">
+                <hr/>
+                {{group.courses[schedule.course_id2].name}}
+              </div>
+            </div>
+          </div>
+          <div ng-repeat="user in users" class="css-table-row">
+            <div class="css-table-cell name-field">{{user.name}}</div>
+            <div ng-repeat="schedule in group.schedules" ng-if="!vacation(schedule)"
+                class="css-table-cell">
+              <input type="checkbox" ng-model="user.records[schedule.course_id].attended"
+                  title="{{user.name + '/' + group.courses[schedule.course_id].name}}"
+                  ng-change="reportTask(user, schedule.course_id)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-switch-default>
+        <h3 class="inline table-title">第{{group.term}}学期</h3>
+        <iron-icon class="small-icon selectable" icon="cloud-download" title="导出" ng-click="export()">
+        </iron-icon>
+        <a ng-if="exportedRecords" href="{{exportedRecords}}" download="第{{group.term}}学期.txt">
+          第{{group.term}}学期.txt
+        </a>
+        <a ng-if="exportedRecords2" href="{{exportedRecords2}}" download="第{{group.term}}学期课程2.txt">
+          第{{group.term}}学期课程2.txt
+        </a>
+        <a ng-if="exportedRecordsAlt" href="{{exportedRecordsAlt}}" download="第{{group.term}}学期.txt">
+          第{{group.term}}学期交叉合并.txt
+        </a>
+        &nbsp;&nbsp;
+        <zb-sync-button type="schedule_task" users="users" class-id="classId"
+            schedule-group="group" title="学修记录上报学院">
+        </zb-sync-button>
+        <div class="css-table odd-even">
+          <div class="css-table-row header">
+            <div ng-if="group.schedules" class="css-table-cell name-field"></div>
+            <div ng-repeat="schedule in group.schedules" ng-if="!vacation(schedule)"
+                class="css-table-cell">
+              {{group.courses[schedule.course_id].name}}
+              <div ng-if="schedule.course_id2">
+                <hr/>
+                {{group.courses[schedule.course_id2].name}}
+              </div>
+            </div>
+          </div>
+          <div ng-repeat="user in users" class="css-table-row">
+            <div class="css-table-cell name-field">{{user.name}}</div>
+            <div ng-repeat="schedule in group.schedules" ng-if="!vacation(schedule)"
+                class="css-table-cell learning-record-cell">
+              <input type="checkbox" ng-model="user.records[schedule.course_id].video"
+                  title="{{group.courses[schedule.course_id].name}}听传承"
+                  ng-click="reportTask(user, schedule.course_id)">
+              <input type="checkbox" ng-model="user.records[schedule.course_id].text"
+                  title="{{group.courses[schedule.course_id].name}}读法本"
+                  ng-click="reportTask(user, schedule.course_id)">
+              <div ng-if="schedule.course_id2">
+                <hr/>
+                <input type="checkbox" ng-model="user.records[schedule.course_id2].video"
+                    ng-if="schedule.course_id2"
+                    title="{{group.courses[schedule.course_id2].name}}听传承"
+                    ng-click="reportTask(user, schedule.course_id2)">
+                <input type="checkbox" ng-model="user.records[schedule.course_id2].text"
+                    ng-if="schedule.course_id2"
+                    title="{{group.courses[schedule.course_id2].name}}读法本"
+                    ng-click="reportTask(user, schedule.course_id2)">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-if="group.limited_course_group">
+	        <iron-icon class="small-icon clickable" icon="cloud-download"
+	            title="导出限制性课程记录" ng-click="exportLimitedCourse(group)">
+	        </iron-icon>
+	        <a ng-if="exportedLimitedRecords" href="{{exportedLimitedRecords}}"
+	            download="第{{group.term}}学期限制性课程.txt">
+	          第{{group.term}}学期限制性课程.txt
+	        </a>
+        </div>
+        <div ng-if="group.limited_course_group" class="css-table odd-even">
+          <div class="css-table-row header">
+            <div class="css-table-cell name-field"></div>
+            <div ng-repeat="course in group.limited_courses" class="css-table-cell">
+              {{course.name}}
+            </div>
+          </div>
+          <div ng-repeat="user in users" class="css-table-row">
+            <div class="css-table-cell name-field">{{user.name}}</div>
+            <div ng-repeat="course in group.limited_courses" class="css-table-cell">
+              <input type="checkbox" ng-model="user.records[course.id].video" title="{{course.name}}听传承"
+                ng-click="reportTask(user, course.id)">
+              <input type="checkbox" ng-model="user.records[course.id].text" title="{{course.name}}读法本"
+                ng-click="reportTask(user, course.id)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

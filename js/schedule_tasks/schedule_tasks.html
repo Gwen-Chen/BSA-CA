@@ -1,0 +1,95 @@
+<navigate-bar class="right padded-element" navigate="navigate(direction)"></navigate-bar>
+<div ng-repeat="group in schedule_groups">
+  <div class="center"><h2>第{{group.term}}学期</h2></div>
+  <div class="center">{{endTimeLabel(group)}}</div>
+  <div class="css-table odd-even schedule-tasks"
+      ng-class="{'wide-schedule-table': group.course_group2}">
+    <div class="css-table-row header">
+      <div class="css-table-cell"><strong>周数</strong></div>
+      <div class="css-table-cell"><strong>时间</strong></div>
+      <div class="css-table-cell"><strong>课程</strong></div>
+      <div class="css-table-cell" ng-if="!group.course_group2"><strong>总结</strong></div>
+      <div class="css-table-cell"><strong>串讲</strong></div>
+      <div class="css-table-cell"><strong>听传承</strong></div>
+      <div class="css-table-cell"><strong>读法本</strong></div>
+      <div class="css-table-cell" ng-if="group.course_group2"><strong>课程</strong></div>
+      <div class="css-table-cell" ng-if="group.course_group2"><strong>串讲</strong></div>
+      <div class="css-table-cell" ng-if="group.course_group2"><strong>听传承</strong></div>
+      <div class="css-table-cell" ng-if="group.course_group2"><strong>读法本</strong></div>
+      <div class="css-table-cell"><strong>出席</strong></div>
+    </div>
+  
+    <div ng-repeat="schedule in group.schedules" class="css-table-row"
+        ng-class="{'vacation': vacation(schedule), 'report-week': schedule.middle}"
+        title="{{schedule.middle ? '中期报数开始啦！' : ''}}">
+      <div class="css-table-cell">{{$index + 1}}</div>
+      <div class="css-table-cell">{{getWeeklyTime(group, $index)}}</div>
+      <div class="css-table-cell" ng-switch="vacation(schedule)">
+        <span ng-switch-when="true">{{schedule.notes}}</span>
+        <a href="https://www.youtube.com/results?search_query={{group.courses[schedule.course_id].name}}"
+            target="_blank" title="Click to search in YouTube" ng-switch-default>
+          {{group.courses[schedule.course_id].name}}
+        </a>
+      </div>
+      <div class="css-table-cell">{{users[schedule.review].name}}</div>
+      <div class="css-table-cell" ng-if="!group.course_group2">{{users[schedule.open].name}}</div>
+      <div class="css-table-cell">
+        <input type="checkbox" ng-model="records[schedule.course_id].video"
+            ng-click="reportTask(schedule.course_id)" ng-if="!vacation(schedule)">
+      </div>
+      <div class="css-table-cell">
+        <input type="checkbox" ng-model="records[schedule.course_id].text"
+            ng-click="reportTask(schedule.course_id)" ng-if="!vacation(schedule)">
+      </div>
+      <div class="css-table-cell" ng-if="group.course_group2">
+        <a href="https://www.youtube.com/results?search_query={{group.courses[schedule.course_id2].name}}"
+            target="_blank" title="Click to search in YouTube">
+          {{group.courses[schedule.course_id2].name}}
+        </a>
+      </div>
+      <div class="css-table-cell" ng-if="group.course_group2">{{users[schedule.open].name}}</div>
+      <div class="css-table-cell" ng-if="group.course_group2">
+        <input type="checkbox" ng-model="records[schedule.course_id2].video"
+            ng-click="reportTask(schedule.course_id2)" ng-if="schedule.course_id2 && !vacation(schedule)">
+      </div>
+      <div class="css-table-cell" ng-if="group.course_group2">
+        <input type="checkbox" ng-model="records[schedule.course_id2].text"
+            ng-click="reportTask(schedule.course_id2)" ng-if="schedule.course_id2 && !vacation(schedule)">
+      </div>
+      <div class="css-table-cell">
+        <input type="checkbox" ng-model="records[schedule.course_id].attended"
+            ng-change="reportTask(schedule.course_id)"
+            ng-if="!vacation(schedule)" ng-disabled="!user.classInfo.self_report">
+      </div>
+      <div ng-if="schedule.middle" class="report-alert vacation">
+        <iron-icon icon="report"></iron-icon>报数报数报数！
+      </div>
+    </div>
+  </div>
+  <div ng-if="hasLimitedCourses(group)">
+    <div class="center"><h2>限制性课程</h2></div>
+    <div class="css-table odd-even schedule-tasks">
+      <div class="css-table-row header">
+        <div class="css-table-cell"><strong>课程</strong></div>
+        <div class="css-table-cell"><strong>听传承</strong></div>
+        <div class="css-table-cell"><strong>读法本</strong></div>
+      </div>
+      <div ng-repeat="course in group.limited_courses" class="css-table-row">
+        <div class="css-table-cell">
+          <a href="https://www.youtube.com/results?search_query={{course.name}}"
+              target="_blank" title="Click to search in YouTube">
+            {{course.name}}
+          </a>
+        </div>
+        <div class="css-table-cell">
+          <input type="checkbox" ng-model="records[course.id].video"
+              ng-click="reportTask(course.id)">
+        </div>
+        <div class="css-table-cell">
+          <input type="checkbox" ng-model="records[course.id].text"
+              ng-click="reportTask(course.id)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="padded-element">
+  <label>输入书名查找: <input type="text" ng-model="namePrefix"></label>
+</div>
+<div class="padded-element">
+  <label ng-repeat="category in categories">
+    <input type="checkbox" ng-model="category.selected">
+    {{category.name}}
+  </label>
+</div>
+<input ng-if="items.length" type="button" value="全部加入购物车"
+    ng-click="cart.addAll(items)">
+<strong ng-if="items.length == 0" class="padded-element">暂未开放订书。</strong>
+<div class="items css-table">
+  <div ng-repeat="item in items | filter: {name: namePrefix}"
+      ng-if="categories[item.category].selected || namePrefix"
+      class="css-table-row">
+      <div class="css-table-cell top-border item-image-container">
+        <img src="{{item.image || 'images/shangshi.jpg'}}" class="item-image">
+      </div>
+      <div class="css-table-cell top-border">
+        <h3>{{item.name}}</h3>
+        <div>价格：${{item.price}}</div>
+        <div class="int-shipping">国际运费预计：${{item.int_shipping}}</div>
+        <span class="yellow-button" ng-click="addToCart(item)"
+            flying-to='{"x": 550, "y": 50}'>
+          <iron-icon icon="add-shopping-cart"></iron-icon>
+          <span>加入购物车</span>
+        </span>
+      </div>
+      <div class="css-table-cell top-border item-description">
+        {{item.description}}
+      </div>
+      <div class="css-table-cell top-border item-category">
+        {{categories[item.category].name}}
+      </div>
+  </div>
+</div>

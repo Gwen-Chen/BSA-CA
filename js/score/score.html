@@ -1,0 +1,16 @@
+<div class="users flex">
+  <div class="css-table section odd-even">
+    <div class="css-table-row header">
+      <div class="css-table-cell"><strong>考试1</strong></div>
+      <div class="css-table-cell"><strong>分数</strong></div>
+      <div class="css-table-cell"><strong>考试2</strong></div>
+      <div class="css-table-cell"><strong>分数</strong></div>
+    </div>
+    <div class="css-table-row users">
+      <div class="css-table-cell">{{types[score.type1]}}</div>
+      <div class="css-table-cell">{{score.score1 || '暂无'}}</div>
+      <div class="css-table-cell">{{types[score.type2]}}</div>
+      <div class="css-table-cell">{{score.score2 || '暂无'}}</div>
+    </div>
+  </div>
+</div>

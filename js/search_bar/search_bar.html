@@ -1,0 +1,10 @@
+<form>
+	<label>
+	  <input class="search-box" type="text" list="hints" ng-model="value" ng-change="inputChanged()"
+	      placeholder="输入名字或者email地址查找">
+	  <datalist id="hints">
+      <option ng-repeat="hint in hints" value="{{hint.name}} <{{hint.email}}>"></option>
+	  </datalist>
+	</label>
+	<input type="submit" value="search" ng-click="search()">
+</form>

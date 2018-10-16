@@ -1,0 +1,310 @@
+<div class="flex user-container">
+  <div class="user-info">
+    <div class="css-table">
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">姓名</div>
+        <div class="css-table-cell">{{user.name}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" ng-show="isAdmin()" icon="chevron-right"
+              ng-click="editing = 'name'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">法名</div>
+        <div class="css-table-cell">{{user.nickname}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right" ng-click="editing = 'nickname'">
+          </iron-icon>
+        </div>
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">性别</div>
+        <div class="css-table-cell">{{getDisplayLabel('sex')}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right" ng-click="editing = 'sex'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">权限</div>
+        <div class="css-table-cell">{{permissionLabel[user.permission] || '管理员'}}</div>
+        <div class="css-table-cell">
+          <iron-icon ng-show="isSysAdmin() || isYearLeader()" class="selectable"
+              icon="chevron-right" ng-click="editing = 'permission'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">密码</div>
+        <div class="css-table-cell">******</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'password'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">出生年份</div>
+        <div class="css-table-cell">{{user.birthyear}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'birthyear'">
+          </iron-icon>
+        </div>          
+      </div>
+    </div>
+  </div>
+  <div class="user-info">
+    <div class="css-table">
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">学号</div>
+        <div class="css-table-cell">{{user.internal_id}}</div>
+        <div class="css-table-cell">
+          <iron-icon ng-show="isSysAdmin()" class="selectable" icon="chevron-right"
+              ng-click="editing = 'internal_id'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">班级</div>
+        <div class="css-table-cell">{{user.classInfo.name}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'classId'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">皈依年份</div>
+        <div class="css-table-cell"><span ng-if="user.conversion">{{user.conversion}}</span></div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'conversion'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">知道学会的渠道</div>
+        <div class="css-table-cell">{{getDisplayLabel('channel')}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'channel'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">注册入口</div>
+        <div class="css-table-cell">{{getDisplayLabel('entrance')}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'entrance'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element" ng-show="admining">
+        <div class="css-table-cell">备注</div>
+        <div class="css-table-cell">{{user.comments}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'comments'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">学院系统id</div>
+        <div class="css-table-cell">{{user.zb_id}}</div>
+        <div class="css-table-cell">
+          <iron-icon ng-show="isYearLeader()" class="selectable" icon="chevron-right"
+              ng-click="editing = 'zb_id'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">
+          <label>
+            <input type="checkbox" ng-model="user.enroll_tasks" bit-index="5"
+                ng-change="save('enroll_tasks')">
+            研讨班成员
+          </label>
+        </div>
+        <div class="css-table-cell">
+          <label>
+            <input type="checkbox" ng-model="user.enroll_tasks" bit-index="6"
+                ng-change="save('enroll_tasks')">
+            终身学员
+          </label>
+        </div>
+        <div class="css-table-cell">
+          <label>
+            <input type="checkbox" ng-model="user.enroll_tasks" bit-index="7"
+                ng-change="save('enroll_tasks')">
+            自学
+          </label>
+        </div>          
+        <div class="css-table-cell" ng-show="isAdmin()">
+          <label>
+            <input type="checkbox" ng-model="user.enroll_tasks" bit-index="8"
+                ng-change="save('enroll_tasks')">
+            功德会成员
+          </label>
+        </div>          
+      </div>
+    </div>
+  </div>
+  <div class="user-info">
+    <div class="css-table">
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">email</div>
+        <div class="css-table-cell">{{user.email}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right" ng-click="editing = 'email'">
+          </iron-icon>
+        </div> 
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">电话</div>
+        <div class="css-table-cell">{{user.phone}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right" ng-click="editing = 'phone'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">微信</div>
+        <div class="css-table-cell">{{user.im}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right" ng-click="editing = 'im'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">YY</div>
+        <div class="css-table-cell">{{user.yy}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right" ng-click="editing = 'yy'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">地址</div>
+        <div class="css-table-cell">
+          <address-editor user="user"></address-editor>
+        </div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right" ng-click="editing = 'address'">
+          </iron-icon>
+        </div>          
+      </div>
+    </div>
+  </div>
+  <div class="user-info">
+    <div class="css-table">
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">文化程度</div>
+        <div class="css-table-cell">{{getDisplayLabel('education')}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'education'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">职业</div>
+        <div class="css-table-cell">{{user.occupation}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'occupation'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">特长</div>
+        <div class="css-table-cell">{{user.skills}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'skills'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">是否愿意发心工作</div>
+        <div class="css-table-cell">{{getDisplayLabel('volunteer')}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'volunteer'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">报名原因和闻思经历</div>
+        <div class="css-table-cell bio">{{user.bio}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'bio'">
+          </iron-icon>
+        </div>          
+      </div>
+      <div class="css-table-row padded-element">
+        <div class="css-table-cell">社团管理、慈善组织、公益活动经验</div>
+        <div class="css-table-cell bio">{{user.experience}}</div>
+        <div class="css-table-cell">
+          <iron-icon class="selectable" icon="chevron-right"
+              ng-click="editing = 'experience'">
+          </iron-icon>
+        </div>          
+      </div>
+    </div>
+  </div>
+  <div ng-if="editing" class="css-table user-info-editor">
+   <div class="css-table-row">
+      <div ng-switch="editing" class="css-table-cell">
+        <input ng-switch-when="name" ng-model="user.name" type="text" autofocus>
+        <input ng-switch-when="nickname" ng-model="user.nickname" type="text" autofocus>
+        <select ng-switch-when="sex" ng-model="user.sex" autofocus
+            ng-options="sexLabels[value] for value in [0, 1]">
+        </select>
+        <input ng-switch-when="email" ng-model="user.email" type="email" autofocus>
+        <input ng-switch-when="internal_id" ng-model="user.internal_id" type="text" autofocus>
+        <classes ng-switch-when="classId" class-id="user.classId" permission="{{user.permission}}">
+        </classes>
+        <permission-editor ng-switch-when="permission" user="user" editable="true">
+        </permission-editor>
+        <input ng-switch-when="phone" ng-model="user.phone" type="tel" autofocus>
+        <input ng-switch-when="im" ng-model="user.im" type="text" autofocus>
+        <input ng-switch-when="yy" ng-model="user.yy" type="number" autofocus>
+        <div ng-switch-when="password">
+          <input type="password" ng-model="user.password" autofocus>
+          <input type="password" ng-model="user.confirm" autofocus>
+          <div ng-if="user.password != user.confirm" class="error">两次输入的密码不匹配</div>
+        </div>
+        <address-editor ng-switch-when="address" editing="true" user="user"></address-editor>
+        <select ng-switch-when="education" ng-model="user.education"
+            ng-options="educationLabels[value] for value in [1, 2, 3, 4, 5]"></select>
+        <input ng-switch-when="occupation" ng-model="user.occupation" type="text" autofocus>
+        <input ng-switch-when="skills" ng-model="user.skills" type="text" autofocus>
+        <select ng-switch-when="volunteer" ng-model="user.volunteer"
+            ng-options="volunteerLabels[value] for value in [0, 1, 2, 3, 5, 6, 4]">
+        </select>
+        <input ng-switch-when="birthyear" ng-model="user.birthyear" type="number" min="1900"
+            pattern="\d{4}" autofocus>
+        <input ng-switch-when="conversion" ng-model="user.conversion" type="text" pattern="\d{4}"
+                placeholder="2015" autofocus>
+        <select ng-switch-when="channel" ng-model="user.channel"
+            ng-options="channelLabels[value] for value in [1, 2, 3, 4, 5, 6, 7]"></select>
+        <select ng-switch-when="entrance" ng-model="user.entrance"
+            ng-options="entranceLabels[value] for value in [0, 1, 2]"></select>
+        <input ng-switch-when="comments" ng-model="user.comments" type="text" autofocus>
+        <textarea ng-switch-when="bio" ng-model="user.bio" cols="60" rows="10" 
+            maxlength="255" autofocus>
+        </textarea>
+        <textarea ng-switch-when="experience" ng-model="user.experience" cols="60" rows="10" 
+            maxlength="255" autofocus>
+        </textarea>
+        <input ng-switch-when="zb_id" ng-model="user.zb_id" type="number" autofocus>
+        <div ng-if="error" class="error">{{error}}</div>
+      </div>
+      <input type="submit" value="Save" ng-click="save()" class="css-table-cell">
+    </div>
+  </div>
+</div>

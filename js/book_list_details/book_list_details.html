@@ -1,0 +1,57 @@
+<div class="flex">
+  <div class="section">
+    <div>
+      {{departments[classInfo.department_id].name}}第{{classInfo.term}}学期书单
+      <iron-icon icon="delete" class="clickable inline" ng-click="clear()"
+          title="清空书单列表，以便重新选取（适用于建立短书单）">
+      </iron-icon>
+    </div>
+    <div class="css-table odd-even class-book-list">
+      <div class="css-table-row header">
+        <div class="css-table-cell">序号</div>
+        <div class="css-table-cell">书名</div>
+        <div class="css-table-cell">类别</div>
+        <div class="css-table-cell">价格</div>
+        <div class="css-table-cell">国际运费</div>
+        <div class="css-table-cell"></div>
+      </div>
+      <div ng-repeat="(id, book) in classInfo.books"
+          class="css-table-row deletable">
+        <div class="css-table-cell">{{$index + 1}}</div>
+        <div class="css-table-cell">{{book.name}}</div>
+        <div class="css-table-cell">{{categories[book.category].name}}</div>
+        <div class="css-table-cell">{{book.price}}</div>
+        <div class="css-table-cell">{{book.int_shipping}}</div>
+        <div class="css-table-cell">
+          <iron-icon icon="delete" class="delete-button"
+              ng-click="removeItem(id)">
+          </iron-icon>
+        </div>
+      </div>
+    </div>
+    <div class="padded-element right">
+      <iron-icon icon="add" class="clickable" ng-click="classInfo.adding = true"
+          title="添加法本..." ng-show="!classInfo.adding">
+      </iron-icon>
+      <input type="button" value="取消" ng-click="restore()"
+          ng-disabled="!dirty"> 
+      <input type="submit" value="保存" ng-click="save()"
+          ng-disabled="!dirty">
+    </div>
+  </div>
+  <div class="padded-element" ng-if="classInfo.adding">
+    <select multiple="true" class="book-selection">
+      <option ng-repeat="item in items" value="{{item.id}}"
+          ng-click="addBook(item)" ng-if="!classInfo.books[item.id]">
+        {{item.name}}
+      </option>
+    </select>
+    <iron-icon icon="add" class="clickable" ng-click="classInfo.newBook = {}"
+        title="新建法本...">
+    </iron-icon>
+    <book-editor ng-if="classInfo.newBook != null" book="classInfo.newBook"
+        items="items" categories="categories" on-save="createBook()"
+        on-cancel="classInfo.newBook = null">
+    </book-editor>
+  </div> 
+</div>

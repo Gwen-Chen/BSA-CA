@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css?tag=201603081154">
+<title>地方小组</title>
+<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js">
+</script>
+<link rel="import" href="bower_components/iron-icon/iron-icon.html"/>
+<link rel="import" href="bower_components/iron-icons/iron-icons.html"/>
+</head>
+
+<body class="center local">
+
+<app-bar user="user" admining="true"></app-bar>
+<div class="flex">
+  <address-filter country="user.country" state="user.state"></address-filter>
+  <div>
+    <checkbox-filter options="classYears" selection-changed="classYearChanged()"></checkbox-filter>
+    <users users="users"></users>
+  </div>
+</div>
+
+<script type="text/javascript" src="local.js?tag=201612132115"></script>
+
+</body>
+
+</html>

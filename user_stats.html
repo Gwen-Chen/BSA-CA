@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css?tag=201603081154">
+<title>用户统计</title>
+<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js">
+</script>
+<link rel="import" href="bower_components/iron-icon/iron-icon.html"/>
+<link rel="import" href="bower_components/iron-icons/iron-icons.html"/>
+</head>
+
+<body class="center local">
+
+<app-bar user="user" admining="true"></app-bar>
+<checkbox-filter options="classYears" selection-changed="classYearChanged()">
+</checkbox-filter>
+<checkbox-filter options="departments" selection-changed="depChanged()">
+</checkbox-filter>
+<input type="button" value="把所有城市名翻译成英文..." ng-click="fixCityNames()"
+    ng-show="false">
+<users users="users"></users>
+
+<script type="text/javascript" src="user_stats.js?tag=201804212115"></script>
+
+</body>
+
+</html>

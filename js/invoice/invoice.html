@@ -1,0 +1,77 @@
+<h1>美国智悲讲修菩提学会</h1>
+<address-editor user="{name: 'BICW - NY', zip: '11377', country: 'US',
+street: '48-32 58th Lane', city: 'Woodside', state: 32}"
+    with-contact="true"></address-editor>
+<a class="right" href="javascript:window.print()">Print</a>
+<hr>
+<div class="flex">
+  <div class="invoice-address">
+    <div><strong>Bill To</strong></div>
+    <address-editor user="order" with-contact="true"></address-editor>
+  </div>
+  <div class="invoice-address">
+    <div><strong>Ship To</strong></div>
+    <address-editor user="order" with-contact="true"></address-editor>
+  </div>
+  <div class="css-table">
+    <div class="css-table-row">
+      <div class="css-table-cell">Invoice #</div>
+      <div class="css-table-cell">{{order.id}}</div>
+    </div>
+    <div class="css-table-row">
+      <div class="css-table-cell">Order Date</div>
+      <div class="css-table-cell">{{order.created_time}}</div>
+    </div>
+    <div ng-if="order.paid_date" class="css-table-row">
+      <div class="css-table-cell">Paid on</div>
+      <div class="css-table-cell">{{order.paid_date}}</div>
+    </div>
+    <div ng-if="order.paypal_trans_id" class="css-table-row">
+      <div class="css-table-cell">Transaction</div>
+      <div class="css-table-cell">
+        <a href="https://www.paypal.com/myaccount/transaction/details/inline/{{order.paypal_trans_id}}"
+            target="_blank">
+          {{order.paypal_trans_id}}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<hr class="bold">
+<div class="css-table invoice-table">
+  <div class="css-table-row">
+    <div class="css-table-cell">数量</div>
+    <div class="css-table-cell">描述</div>
+    <div class="css-table-cell">单价</div>
+    <div class="css-table-cell">总价</div>
+  </div>
+  <div ng-repeat="item in order.items" class="css-table-row">
+    <div class="css-table-cell">{{item.count}}</div>
+    <div class="css-table-cell">{{item.name}}</div>
+    <div class="css-table-cell">{{item.price}}</div>
+    <div class="css-table-cell">{{(item.price * item.count).toFixed(2)}}</div>
+  </div>
+  <div class="css-table-row">
+    <div class="css-table-cell"></div>
+    <div class="css-table-cell"></div>
+    <div class="css-table-cell">Subtotal</div>
+    <div class="css-table-cell">{{order.sub_total}}</div>
+  </div>
+  <div class="css-table-row">
+    <div class="css-table-cell"></div>
+    <div class="css-table-cell"></div>
+    <div class="css-table-cell">Shipping</div>
+    <div class="css-table-cell">
+      {{(order.int_shipping + order.shipping).toFixed(2)}}
+    </div>
+  </div>
+  <div class="css-table-row">
+    <div class="css-table-cell"></div>
+    <div class="css-table-cell"></div>
+    <div class="css-table-cell"><h2>Invoice total</h2></div>
+    <div class="css-table-cell">
+      {{(order.sub_total + order.int_shipping + order.shipping).toFixed(2)}}
+    </div>
+  </div>
+</div>
+<hr class="bold">

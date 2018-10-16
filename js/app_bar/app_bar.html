@@ -1,0 +1,46 @@
+<div class="app-bar">
+  <div class="left">
+    <span>{{user.classInfo.name}}: 
+      <a target="_blank" class="app-bar-link"
+          href="http://www.yy.com/{{user.classInfo.class_room}}">
+        {{user.classInfo.class_room}}
+      </a>
+      <span ng-if="!admining">
+        固定上课时间：{{weekDayLabels[user.classInfo.weekday]}}
+        {{formatTime(user.classInfo.time)}}
+      </span> 
+    </span>
+  </div>
+  <search-bar class="left" ng-if="admining && isYearLeader()"></search-bar>
+  <div class="right">
+    <a ng-if="!isIn('/index.html') && !isIn('/')" class="app-bar-link"
+        href="index.html">
+      考勤登记
+    </a>
+    <a ng-if="!isIn('/admin.html') && (isAdmin() || isTeacher())" class="app-bar-link"
+        href="admin.html">
+      学修管理
+    </a>
+    <!--a ng-if="!isIn('/order.html')" class="app-bar-link" href="order.html">
+      法本订购
+    </a-->
+    <a ng-if="!isIn('/local.html') && isSysAdmin()" class="app-bar-link" 
+        href="local.html">
+      地方小组
+    </a>
+    <a ng-if="!isIn('/user_stats.html') && isSysAdmin()" class="app-bar-link" 
+        href="user_stats.html">
+      用户统计
+    </a>
+    <a ng-if="!isIn('/assignment.html') && showAssignments()"
+        class="app-bar-link" href="assignment.html">
+      分班意向
+    </a>
+    <a ng-if="!isIn('/order_admin.html') && (isOrderAdmin() || isAdmin())"
+        class="app-bar-link" href="order_admin.html">
+      订单管理
+    </a>
+    <span>{{user.name}}</span>
+    <a class="app-bar-link" href="php/logout.php">Logout</a>
+  </div>
+</div>

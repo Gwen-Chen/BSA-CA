@@ -1,0 +1,6 @@
+<div class="padded-element">
+  <label ng-repeat="option in options" >
+    <input type="checkbox" ng-model="option.checked" ng-click="selectionChanged()">
+    {{option.label}}
+  </label>
+</div>

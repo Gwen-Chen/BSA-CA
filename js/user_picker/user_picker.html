@@ -1,0 +1,11 @@
+<link rel="import" href="bower_components/iron-icons/editor-icons.html">
+<div ng-switch="showPicker">
+  <select ng-switch-when="true" ng-model="selectedUser.name" ng-change="select()"
+      ng-options="name for name in userList" ng-keyup="keyPressed($event)">
+  </select>
+  <div ng-switch-default ng-switch="!selectedUser.name" ng-click="edit()" class="selectable">
+    <iron-icon ng-switch-when="true" icon="editor:border-color" class="small-icon">
+    </iron-icon>
+    <span ng-switch-default>{{selectedUser.name}}</span>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<select ng-options="year for year in years" ng-model="year"
+    ng-change="yearChanged()">
+</select>
+<div class="flex">
+  <div class="css-table odd-even">
+    <div class="header css-table-row">
+      <div class="css-table-cell">班级</div>
+      <div class="css-table-cell">科系</div>
+      <div class="css-table-cell">学期</div>
+    </div>
+    <div ng-repeat="classInfo in classes" class="css-table-row"
+        ng-click="selectedClass.id = classInfo.id"
+        ng-class="{'selected': selectedClass.id == classInfo.id}">
+      <div class="css-table-cell">{{classInfo.name}}</div>
+      <div class="css-table-cell">
+        {{departments[classInfo.department_id].name}}
+      </div>
+      <div class="css-table-cell">
+        <editable-label value="classInfo.term" type="number"
+            on-change="updateClassTerm(classInfo)">
+        </editable-label>
+      </div>
+    </div>
+  </div>
+  <book-list-details ng-if="selectedClass.id"
+      class-info="classes[selectedClass.id]">
+  </book-list-details>
+</div>

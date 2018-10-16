@@ -1,0 +1,11 @@
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+<paper-dialog id="zb-choose-root">
+  <h2>创建班级，请选择一个大组</h2>
+  <div ng-repeat="zbGroup in zb.zbGroups">
+    <input type="radio" ng-model="zb.selectedZbGroupId" value="{{zbGroup.groupId}}">
+    {{zbGroup.html | htmlToPlaintext}}
+  </div>
+  <paper-button dialog-dismiss raised autofocus>Cancel</paper-button>
+  <paper-button dialog-confirm raised autofocus
+      ng-click="zb.rootGroupSelected(zb.selectedZbGroupId)">OK</paper-button>
+</paper-dialog>

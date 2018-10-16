@@ -1,0 +1,70 @@
+<div class="section class-editor padded-element flex">
+  <div class="padded-element">
+    类别：
+    <departments department-id="classInfo.department_id"></departments>
+    <iron-icon icon="editor:border-color" class="small-icon clickable"
+        ng-click="openDepartmentEditor()">
+    </iron-icon>
+  </div>
+  <div class="padded-element" ng-switch="classInfo.id">
+    名称：
+    <span ng-switch-when="1">{{classInfo.name}}</span>
+    <editable-label ng-switch-default value="classInfo.name"></editable-label>
+  </div>
+  <label class="padded-element">
+    届别：
+    <select ng-options="year for year in years" ng-model="classInfo.start_year">
+    </select> 
+  </label>
+  <label class="padded-element">
+    固定上课时间(美东)：
+    <select ng-options="dayLabels[day] for day in [0, 1, 2, 3, 4, 5, 6]"
+        ng-model="classInfo.weekday">
+    </select>
+    <input type="time" ng-model="classInfo.time" time> 
+  </label>
+  <div class="padded-element">
+    YY/zoom房间：
+    <editable-label value="classInfo.class_room"></editable-label>
+  </div>
+  <div class="padded-element">
+    班级email：
+    <editable-label value="classInfo.email"></editable-label>
+  </div>
+  <div class="padded-element">
+    辅导员：
+    <user-input class="inline" user-id="classInfo.teacher_id">
+    </user-input>
+  </div>
+  <div class="padded-element">
+    辅导员2：
+    <user-input class="inline" user-id="classInfo.teacher2_id">
+    </user-input>
+  </div>
+	<div class="padded-element">
+	  <label>
+	    设置谁可以读写本班数据
+	    <select ng-model="classInfo.perm_level" autofocus
+	        ng-options="permissionLabel[value] for value in permissions">
+	    </select>
+	  </label>
+	</div>
+  <div class="padded-element">
+    允许学员自报考勤 
+    <input type="checkbox" ng-model="classInfo.self_report">
+  </div>
+  <div class="padded-element" ng-if="isSysAdmin()">
+    学院系统ID: <editable-label value="classInfo.zb_id"></editable-label>
+  </div>
+  <iron-icon icon="icons:delete" title="删除" ng-click="remove()" class="selectable padded-element"
+      ng-if="classInfo.id">
+  </iron-icon>
+  <div class="padded-element">
+	  <input type="button" value="Cancel" ng-click="cancel()" ng-disabled="!isDirty()">
+	  <input type="submit" value="Save" ng-click="save()" ng-disabled="!isDirty()">
+  </div>
+  <div class="error padded-element">{{error}}</div>
+  <a href="assignment.html?department_id={{classId == 1 ? 0 : 1}}"
+      ng-if="needsAssignment()" target="_blank" class="padded-element">
+      查看分班选择</a>
+</div>

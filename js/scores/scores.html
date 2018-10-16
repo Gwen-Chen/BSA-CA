@@ -1,0 +1,44 @@
+<zb-sync-button type="score" users="users" class-id="classId"
+    title="考试成绩上报学院">
+</zb-sync-button>
+<div class="users flex">
+  <div class="css-table section odd-even">
+    <div class="css-table-row header">
+      <div class="css-table-cell"><strong>姓名</strong></div>
+      <div class="css-table-cell"><strong>考试1</strong></div>
+      <div class="css-table-cell"><strong>分数</strong></div>
+      <div class="css-table-cell"><strong>考试2</strong></div>
+      <div class="css-table-cell"><strong>分数</strong></div>
+    </div>
+    <div ng-repeat="user in users" class="css-table-row users selectable"
+        ng-click="select(user, $index)"
+        ng-class="{'selected': user == selectedUser}">
+      <div class="css-table-cell">{{user.name}}</div>
+      <div class="css-table-cell">{{types[user.type1]}}</div>
+      <div class="css-table-cell">{{user.score1}}</div>
+      <div class="css-table-cell">{{types[user.type2]}}</div>
+      <div class="css-table-cell">{{user.score2}}</div>
+    </div>
+  </div>
+  <form ng-if="selectedUser" class="user-score-editor css-table"
+      style="margin-top: {{selectedTop + 60}}px">
+    <div>姓名 {{selectedUser.name}}</div>
+    <div>
+      <label>考试1
+        <select ng-options="types[value] for value in [0, 1, 2]"
+            ng-model="selectedUser.type1">
+        </select>
+      </label>
+      <label>分数<input type="number" ng-model="selectedUser.score1"></label>
+    </div>
+    <div>
+      <label>考试2
+        <select ng-options="types[value] for value in [0, 1, 2]"
+            ng-model="selectedUser.type2">
+        </select>
+      </label>
+      <label>分数<input type="number" ng-model="selectedUser.score2"></label>
+    </div>
+    <input type="submit" ng-click="save(selectedUser)" value="保存">
+  </form>
+</div>

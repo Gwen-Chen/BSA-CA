@@ -1,0 +1,30 @@
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+
+<paper-dialog id="department-editor-dlg" noCancelOnEscKey="true" modal>
+  <h2>编辑类别</h2>
+  <paper-dialog-scrollable class="flex">
+    <div class="departments css-table">
+      <div class="css-table-row">
+        <div class="css-table-cell">索引</div>
+        <div class="css-table-cell">名称</div>
+        <div class="css-table-cell"></div>
+      </div>
+      <div ng-repeat="department in departments" class="css-table-row">
+			  <div class="css-table-cell">{{$index}}</div>
+        <div class="css-table-cell">
+	        <editable-label value="department.name" on-change="update(department)"
+	            class="padded-element">
+	        </editable-label>
+	      </div>
+        <div class="css-table-cell">
+				  <iron-icon icon="icons:delete" title="删除" ng-click="remove(department)"
+				      class="selectable padded-element" ng-if="department.id">
+				  </iron-icon>
+				</div>
+      </div>
+    </div>
+  </paper-dialog-scrollable>
+  <div class="buttons">
+    <paper-button dialog-dismiss>关闭</paper-button>
+  </div>
+</paper-dialog>

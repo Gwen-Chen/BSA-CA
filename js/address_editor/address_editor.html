@@ -1,0 +1,59 @@
+<div ng-switch="editing">
+  <div ng-switch-when="true" class="css-table">
+    <div ng-if="withContact" class="css-table-row">
+      <div class="css-table-cell"><label for="name">Name</label></div>
+      <div class="css-table-cell">
+        <input id="name" ng-model="user.name" type="text" autofocus>
+      </div>
+    </div>
+    <div class="css-table-row">
+      <div class="css-table-cell"><label for="zip">Zip code</label></div>
+      <div class="css-table-cell"><input type="text" id="zip" ng-model="user.zip"
+          ng-blur="lookup()">
+      </div>
+    </div>
+    <div class="css-table-row">
+      <div class="css-table-cell"><label for="street">Street number</label></div>
+      <div class="css-table-cell"><input type="text" id="street" ng-model="user.street">
+      </div>
+    </div>
+    <div class="css-table-row">
+      <div class="css-table-cell"><label for="city">City</label></div>
+      <div class="css-table-cell"><input type="text" id="city" ng-model="user.city"></div>
+    </div>
+    <div class="css-table-row">
+      <div class="css-table-cell"><label for="state">State</label></div>
+      <div class="css-table-cell">
+        <select id="state" ng-options="stateMap[value] for value in states"
+            ng-model="user.state"></select>
+      </div>
+    </div>
+    <div class="css-table-row">
+      <div class="css-table-cell"><label for="country">Country</label></div>
+      <div class="css-table-cell">
+        <select id="state" ng-options="countryLabels[value] for value in countries"
+            ng-model="user.country" disabled></select>
+      </div>
+    </div>
+    <div ng-if="withContact" class="css-table-row">
+      <div class="css-table-cell"><label for="phone">Phone</label></div>
+      <div class="css-table-cell">
+        <input id="phone" ng-model="user.phone" type="tel">
+      </div>
+    </div>
+    <div ng-if="withContact" class="css-table-row">
+      <div class="css-table-cell"><label for="email">Email</label></div>
+      <div class="css-table-cell">
+        <input id="email" ng-model="user.email" type="email">
+      </div>
+    </div>
+  </div>
+  <div ng-switch-default>
+    <strong ng-if="withContact">{{user.name}}</strong>
+    <div>{{user.street}}</div>
+    <div ng-if="user.city">{{user.city}}, {{user.stateLabel}} {{user.zip}}</div>
+    <div>{{user.countryLabel}}</div>
+    <div ng-if="withContact && user.phone">Phone: {{user.phone}}</div>
+    <div ng-if="withContact && user.email">Email: {{user.email}}</div>
+  </div>
+</div>

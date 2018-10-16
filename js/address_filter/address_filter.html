@@ -1,0 +1,24 @@
+<div class="padded-element">
+  <select ng-options="countries[index] for index in countryIndexes"
+      ng-model="localGroup.countryIndex"
+      ng-change="countryChanged()">
+  </select>
+  <div ng-repeat="state in states">
+    <label>
+      <input type="checkbox" ng-model="state.checked"
+          ng-click="stateSelected(state)">
+      {{state.label}}({{state.students}})
+    </label>
+    <div class="indented" ng-if="state.checked">
+      <input type="button" ng-click="selectCities(state, {none: true})" value="Clear All">
+      <input type="button" ng-click="selectCities(state, {invert: true})" value="Invert">
+	    <div ng-repeat="key in state.cityKeys">
+	      <label>
+	        <input type="checkbox" ng-model="state.cities[key].checked"
+	           ng-click="reloadUsers()">
+	        {{state.cities[key].label}}({{state.cities[key].users.length}})
+	      </label>
+	    </div>
+    </div>
+  </div>
+</div>

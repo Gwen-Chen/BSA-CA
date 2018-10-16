@@ -1,0 +1,121 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    function findGetParameter(parameterName) {
+      var result = null, tmp = [];
+      var items = location.search.substr(1).split("&");
+      for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+      }
+      return result;
+    }
+    var server = findGetParameter('server') || '';
+    function getXMLRequest() {
+      var xmlhttp = window.XMLHttpRequest ? 
+          new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+      xmlhttp.withCredentials = true;
+      return xmlhttp;
+    }
+    function getString(url) {
+      return new Promise(function(resolve, reject) {
+        var xmlhttp = getXMLRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            resolve(this.responseText);
+          }
+        };
+        xmlhttp.open("GET", server + url, true);
+        xmlhttp.send();
+      });
+    }
+    function post(url, data) {
+      return new Promise(function(resolve, reject) {
+        var xmlhttp = getXMLRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            resolve(this.responseText);
+          }
+        };
+        var params = '';
+        for (var key in data) {
+          params += '&' + key + '=' + data[key];
+        }
+        xmlhttp.open("POST", server + url, true);
+        xmlhttp.setRequestHeader("Content-type", 
+            "application/x-www-form-urlencoded");
+        xmlhttp.send(params);
+      });
+    }
+    function login() {
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      post('php/login.php', 
+          {email: email, password: password}).then(function(response) {
+        document.getElementById('logined').innerHTML = 'logined';
+      });
+    }
+    function listClasses() {
+      var classId = document.getElementById("class-id").value;
+      var depId = document.getElementById("department-id").value;
+      getString('php/services.php?rid=classes&classId=' + 
+          classId + '&department_id=' + depId).then(function(response) {
+        document.getElementById('classes').innerHTML = response;
+      });
+    }
+    function listUsers() {
+      var classId = document.getElementById("users-class-id").value;
+      var email = document.getElementById("users-email").value;
+      getString('php/services.php?rid=users&classId=' + 
+          classId + '&email=' + email).then(function(response) {
+        document.getElementById('users').innerHTML = response;
+      });
+    }
+  </script>
+</head>
+
+<body>
+<hr>
+<form onsubmit="return false;">
+  <h2>Login</h2>
+  <div>
+  POST php/login.php?email=test@example.com&password=passw0rd
+  </div>
+  <div>
+  Response: Authenticated successfully, redirecting...
+  </div>
+  <label>email<input type="text" id="email"></label>
+  <label>password<input type="password" id="password"></label>
+  <input type="submit" value="login" onclick="login()">
+  <div id="logined"></div>
+</form>
+
+<hr>
+  <h2>List classes</h2>
+  <div>
+  GET php/services.php?rid=classes&classId=1&department_id=1
+  </div>
+  <div>
+  Response:  {"1":{"id":1,"department_id":1,"name":"15届周六加行","start_year":2017,"perm_level":2,"weekday":3}}
+  </div>
+  <label>class id (optional)<input type="number" id="class-id"></label>
+  <label>department id (optional)<input type="number" id="department-id"></label>
+  <input type="button" value="list classes" onclick="listClasses()">
+  <div id="classes"></div>
+
+<hr>
+  <h2>List users</h2>
+  <div>
+  GET php/services.php?rid=users&email=test@example.com
+  GET php/services.php?rid=users&classId=1
+  </div>
+  <div>
+  Response:  {"id":"123","sex":1,"education":4,"classId":6,"birthyear":"1978","email":"test@example.com"}}
+  </div>
+  <label>class id (optional)<input type="number" id="users-class-id"></label>
+  <label>email (optional)<input type="email" id="users-email"></label>
+  <input type="button" value="list users" onclick="listUsers()">
+  <div id="users"></div>
+
+</body>

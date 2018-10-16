@@ -1,0 +1,30 @@
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+
+<paper-dialog id="new-user-dlg" noCancelOnEscKey="true" modal>
+  <h2>新建用户</h2>
+  <div ng-switch="user">
+    <div ng-switch-when="null">
+      <label for="new-user-input">按Ctrl+V粘贴报名邮件的内容<label>
+      <div>
+        <textarea id="new-user-input" ng-model="input.emailBody"
+            rows="30" cols="40" ng-change="reset()" autofocus>
+        </textarea>
+      </div>
+    </div>
+    <user-editor ng-switch-default user="user"></user-editor>
+  </div>
+  <div ng-if="error" class="error">{{error}}</div>
+  <div class="buttons">
+    <paper-button dialog-dismiss>关闭</paper-button>
+    <div ng-switch="user">
+      <div ng-switch-when="null">
+        <paper-button ng-click="preview()">预览</paper-button>
+      </div>
+      <div ng-switch-default>
+        <paper-button ng-click="reset()">重新粘贴</paper-button>
+        <paper-button ng-click="save()">保存</paper-button>
+      </div>
+    </div>
+  </div>
+</paper-dialog>
+

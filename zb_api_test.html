@@ -1,0 +1,93 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="js/angular.js"></script>
+</head>
+
+<body>
+<div ng-app="myApp" ng-controller="myCtrl"> 
+
+<hr>
+<form>
+  <input type="text" name="username" value="" ng-model="username">
+  <input type="password" name="password" value="" ng-model="password">
+  <input type="button" value="login" ng-click="login()">
+  <div>{{loginResult}}</div>
+</form>
+<hr>
+  <div>Look up a class:</div>
+  <div>http://db.zhibeifw.com:8888/zb/pre/search_ajax?
+    query=preClass&courseId=1&startdate=2015-06-01
+    &district1=%E7%BE%8E%E5%9B%BD&district2=
+    &localID=1&more=false&filterscount=0&groupscount=0&pagenum=0&pagesize=10
+    &recordstartindex=0&recordendindex=20
+  </div>
+  <input type="number" ng-model="courseId"> (加行：1，入行论：2，净土：3)
+  <input type="text" ng-model="startdate">
+  <input type="text" ng-model="district1">
+  <input type="number" ng-model="localID">
+  <input type="button" value="search" ng-click="searchClass()">
+  <div>{{searchUrl}}</div>
+  <div>{{pre_classID}}</div>
+<hr>
+  <div>List students for a specific class:</div>
+  <div>
+    http://db.zhibeifw.com:8888/zb/pre/classinfo_ajax?
+    type=pre_class_user_list&pre_classID=2067
+  </div>
+  <input type="number" ng-model="pre_classID">
+  <input type="button" value="list" ng-click="list()">
+<hr>
+<div>{{response}}</div>
+</div>
+
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http, $httpParamSerializerJQLike) {
+/*     $http.get('./php/proxy.php?url=' +
+        encodeURIComponent('http://db.zhibeifw.com:8888/zb/account/login'));
+ */ $scope.login = function() {
+      var data = {
+            'username': $scope.username,
+            'password': $scope.password,
+            'url': 'http://db.zhibeifw.com:8888/zb/account/login' 
+          };
+      $http({
+        method: 'POST',
+        url: './php/proxy.php',
+        data: $httpParamSerializerJQLike(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      }).then(function(response) {
+        $scope.loginResult = 'done';
+        $scope.response = response.data;
+      });
+    };
+    $scope.list = function() {
+      var url = encodeURIComponent(
+          'http://db.zhibeifw.com:8888/zb/pre/classinfo_ajax?' + 
+          'type=pre_class_user_list&pre_classID=' + $scope.pre_classID);
+      $http.get('./php/proxy.php?url=' + url).then(function(response) {
+        $scope.response = response.data;
+      });
+    };
+    $scope.searchClass = function() {
+      $scope.searchUrl = (
+          'http://db.zhibeifw.com:8888/zb/pre/search_ajax?query=preClass' + 
+          '&courseId=' + $scope.courseId + '&startdate=' + $scope.startdate +
+          '&district1=' + $scope.district1 +
+          '&localID=' + $scope.localID);
+      var url = encodeURIComponent($scope.searchUrl);
+      $http.get('./php/proxy.php?url=' + url).then(function(response) {
+        $scope.response = response.data;
+        $scope.pre_classID = parseInt($scope.response.data[0].pre_classID);
+      });
+    };
+    $scope.username = '';
+    $scope.courseId = 1;
+    $scope.startdate = '2015-06-01';
+    $scope.district1 = '美国';
+    $scope.localID = 1;
+});
+</script>
+</body>

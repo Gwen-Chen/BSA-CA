@@ -1,0 +1,31 @@
+<div class="flex">
+  <div class="padded-element">
+	  <div class="selectable" ng-class="{'selected': departmentId == 0}"
+	      ng-click="departmentId = 0">新注册学员分班</div>
+	  <div class="selectable" ng-class="{'selected': departmentId == 1}"
+	      ng-click="departmentId = 1">基础班选专业</div>
+  </div>
+  <div class="padded-element">
+	  <label class="padded-element">尽量均匀分班（可能使用第二志愿）
+	    <input type="checkbox" ng-model="method.even">
+	  </label>
+	  <div ng-repeat="classId in candidateIds">
+	    <h2>{{getClassLabel(classId)}}</h2>
+		  <div class="css-table section odd-even">
+		    <div class="css-table-row header">
+		      <div class="css-table-cell"><strong>姓名</strong></div>
+		      <div class="css-table-cell"><strong>首选</strong></div>
+		      <div class="css-table-cell"><strong>次选</strong></div>
+		    </div>
+		    <div ng-repeat="userId in candidates[classId].users" class="css-table-row selectable">
+		      <div class="css-table-cell">{{users[userId].name}}</div>
+		      <div class="css-table-cell">{{getClassLabel(classPrefs[userId].pref1)}}</div>
+		      <div class="css-table-cell">{{getClassLabel(classPrefs[userId].pref2)}}</div>
+		    </div>
+		  </div>
+	  </div>
+  </div>
+  <div class="padded-element">
+    <input type="button" value="确认，执行分班动作..." ng-click="doAssign()">
+  </div>
+</div>

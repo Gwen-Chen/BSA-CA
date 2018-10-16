@@ -1,0 +1,38 @@
+<label class="css-table-cell" ng-if="year">订单年份：
+  <select ng-options="value for value in years" ng-model="selectedYear.value"
+      ng-change="reload()">
+  </select>
+</label>
+<div class="css-table odd-even">
+  <div class="css-table-row header">
+    <div class="css-table-cell">序号</div>
+    <div class="css-table-cell">书名</div>
+    <div ng-repeat="classInfo in classes" class="center-align css-table-cell">
+      <div>{{classInfo.name}}</div>
+      <div class="flex">
+        <div class="split-cell">数量</div>
+        <div>价格</div>
+      </div>
+    </div>
+  </div>
+  <div ng-repeat="item in items" class="css-table-row">
+    <div class="css-table-cell">{{$index + 1}}</div>
+    <div class="css-table-cell">{{item.name}}</div>
+    <div ng-repeat="classInfo in classes" class="css-table-cell">
+      <div class="flex">
+        <div class="split-cell">{{classInfo.stats[item.id].group_count}}</div>
+        <div>{{classInfo.stats[item.id].price}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="css-table-row">
+    <div class="css-table-cell">总计</div>
+    <div class="css-table-cell"></div>
+    <div ng-repeat="classInfo in classes" class="css-table-cell">
+      <div class="flex">
+        <div class="split-cell">{{classInfo.total_count}}</div>
+        <div>{{classInfo.sub_total}}</div>
+      </div>
+    </div>
+  </div>
+</div>

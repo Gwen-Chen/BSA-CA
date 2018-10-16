@@ -1,0 +1,89 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dependency walking</title>
+</head>
+
+<body>
+
+<script type="text/javascript">
+  function loadScript(id, then) {
+    var e = document.createElement('script');
+    e.src = 'js/' + id + '.js';
+    e.onload = then;
+    document.getElementsByTagName('head')[0].appendChild(e);
+  }
+  
+  var depTree = {};
+  function require(id, deps, module) {
+    depTree[id] = deps;
+    
+    var loaded = 0;
+    for (var idx in deps) {
+      var dep = deps[idx];
+      loadScript(dep, function() {
+        loaded++;
+        if (loaded == deps.length) {
+          
+        }
+      });
+    }
+  }
+  
+  var define = require;
+  
+  function dependSequence(tree, node, list, visited) {
+    if (visited[node]) return;
+    visited[node] = true;
+    
+    var deps = tree[node];
+    if (!deps || !deps[0]) {
+      list.push(node);
+      return;
+    }
+    
+    for (var idx in deps) {
+      dependSequence(tree, deps[idx], list, visited);
+    }
+
+    list.push(node);
+  }
+  
+  function showDependency(root) {
+    var ul = document.getElementById(root);
+    var list = [];
+
+    var interval;
+    interval = setTimeout(function() {
+      dependSequence(depTree, root, list, {});
+
+      for (var idx in list) {
+        var li = document.createElement('li');
+        li.innerHTML = 'js/' + list[idx] + '.js';
+        ul.appendChild(li);
+      }
+    }, 3000);
+  }
+</script>
+
+<div>
+  Admin dependencies
+  <ul id="admin_app"></ul>
+</div>
+
+<div>
+  Student dependencies
+  <ul id="student_app"></ul>
+</div>
+
+<script type="text/javascript" src="js/admin_app.js"></script>
+<script type="text/javascript" src="js/student_app.js"></script>
+
+<script type="text/javascript">
+  showDependency('admin_app');
+  showDependency('student_app');
+</script>
+
+</body>
+
+</html>

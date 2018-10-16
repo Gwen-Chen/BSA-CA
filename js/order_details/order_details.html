@@ -1,0 +1,109 @@
+<link rel="import" href="bower_components/iron-icons/editor-icons.html">
+<div class="css-table order-details-header">
+  <div class="css-table-row" ng-class="{'deletable': !order.status}">
+    <div class="css-table-cell">
+      <div>订单日期</div>
+      <div>{{order.created_time}}</div>
+      <div ng-switch="admin" class="padded-element">
+        <label ng-switch-when="true">订单状态: 
+          <select ng-model="order.status"
+              ng-options="statusLabels[value] for value in [0, 1, 3]"
+              ng-change="onUpdate()">
+          </select>
+        </label>
+        <span ng-switch-default>订单状态: {{statusLabels[order.status]}}</span>
+      </div>
+      <div>总数: {{order.count}}</div>
+      <div ng-if="!order.status && hasSelection()" class="padded-element">
+        <input type="button" value="将所选项拆分到新订单" ng-click="onSplit()">
+      </div>
+    </div>
+    <div class="css-table-cell">
+      <div>金额: ${{order.sub_total}}</div>
+      <div>预计国际运费: ${{order.int_shipping_estmt}}</div>
+      <div>实际国际运费: ${{order.int_shipping}}</div>
+      <div>美国国内运费: ${{order.shipping}}</div>
+      <div>合计: ${{order.grand_total}}</div>
+      <div>已付: ${{order.paid}}</div>
+      <div>
+        <strong>Balance: ${{order.balance}}</strong>
+        <a ng-if="!admin" href="https://www.paypal.me/BICWNY/{{order.balance}}" 
+            target="_blank">
+          付款
+        </a>
+      </div>
+      <div ng-if="order.paypal_trans_id">
+        <a href="https://www.paypal.com/myaccount/transaction/details/inline/{{order.paypal_trans_id}}"
+            target="_blank">
+          PayPal transaction
+        </a>
+      </div>
+      <div ng-if="order.usps_track_id">
+        <a href="https://tools.usps.com/go/TrackConfirmAction?tLabels={{order.usps_track_id}}"
+            target="_blank">
+          USPS tracking ID
+        </a>
+      </div>
+      <label>修改<input type="checkbox" ng-model="order.editing"></label>
+      <div ng-if="order.editing">
+        <div ng-if="admin">          
+          <div><label>运费: $<input ng-model="order.shipping"></label></div>
+          <div>
+            <label>USPS tracking ID:
+              <input ng-model="order.usps_track_id">
+            </label>
+          </div>
+        </div>
+        <label>PayPal transaction ID: 
+          <input ng-model="order.paypal_trans_id">
+        </label>
+        <div><label>已付: $<input ng-model="order.paid"></label></div>
+        <input type="button" value="确认修改" ng-click="onUpdate()">
+      </div>
+    </div>
+    <div class="css-table-cell">
+      <address-editor user="order" with-contact="true"></address-editor>
+      <div class="padded-element">班级：{{order.class_name}}</div>
+    </div>
+    <div class="css-table-cell">
+      <div ng-if="order.shipping_date">发货：
+        <div>{{order.shipping_date}}</div>
+      </div>
+      <div ng-if="order.paid_date">付款日期：<div>{{order.paid_date}}</div></div>
+    </div>
+    <div class="css-table-cell">
+      <div>订单号</div>
+      <div>{{order.id}}</div>
+      <a href="invoice_print.html?order_id={{order.id}}" target="_blank">
+        Invoice
+      </a>
+    </div>
+    <div class="css-table-cell">
+      <iron-icon icon="delete" ng-click="onCancel()" class="delete-button"
+          title="取消订单" ng-show="admin">
+      </iron-icon>
+    </div>
+    <div class="css-table-cell">
+      <iron-icon icon="editor:merge-type" ng-click="onMerge()"
+          title="合并{{order.name}}的所有订单" class="clickable"
+          ng-show="admin && order.mergeable">
+      </iron-icon>
+    </div>
+  </div>
+</div>
+<div class="css-table shopping-cart-list">
+  <div ng-repeat="item in order.items"
+      class="css-table-row selectable deletable"
+      ng-class="{'selected': item.selected}"
+      ng-click="item.selected = !item.selected">
+    <div class="css-table-cell">{{item.name}}</div>
+    <div class="css-table-cell">{{item.count}}</div>
+    <div class="css-table-cell">${{item.price}}</div>
+    <div class="css-table-cell">${{item.int_shipping}}</div>
+    <div class="css-table-cell" ng-if="admin">
+      <iron-icon icon="delete" class="delete-button"
+          ng-click="onRemoveItem({'order': order, 'item': item})">
+      </iron-icon>
+    </div>
+  </div>
+</div>

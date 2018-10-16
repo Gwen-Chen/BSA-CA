@@ -1,0 +1,15 @@
+<class-editor class-id="classId"></class-editor>
+<div ng-switch="isNewClass()">
+  <div ng-switch-when="true">
+    <input type="button" value="根据报名邮件新建用户..." ng-click="showNewUserDialog()">
+  </div>
+  <div ng-switch-default>
+    <!-- input type="button" value="分配学号..." ng-click="allocateIDs()"-->
+  </div>
+</div>
+<new-user-dialog refresh="reload(classId)"></new-user-dialog>
+<zb-sync-button type="class" users="users" class-id="classId" title="学员名单上报学院">
+</zb-sync-button>
+<users users="users" on-delete="reload(classId)" class-id="classId"></users>
+<serial-number-dialog class-id="classId" users="users"><serial-number-dialog>
+

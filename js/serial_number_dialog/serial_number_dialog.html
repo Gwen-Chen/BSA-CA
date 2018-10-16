@@ -1,0 +1,36 @@
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+
+<paper-dialog id="serial-number-dlg" modal>
+  <h2>分配学号</h2>
+  <paper-dialog-scrollable>
+    <div class="padded-element">
+      <label>输入第一个学号<input type="text" ng-model="base"></label>
+      <paper-button ng-click="allocate()">开始分配</paper-button>
+      <paper-button ng-click="clear()">清空</paper-button>
+    </div>
+    <div class="css-table odd-even">
+      <div class="css-table-row header">
+        <div class="css-table-cell">姓名</div>
+        <div class="css-table-cell">邮件</div>
+        <div class="css-table-cell">学号</div>
+        <div class="css-table-cell"></div>
+        <div class="css-table-cell"></div>
+      </div>
+      <div ng-repeat="user in users" class="css-table-row">
+        <div class="css-table-cell">{{user.name}}</div>
+        <div class="css-table-cell">{{user.email}}</div>
+        <div class="css-table-cell">
+          <editable-label value="user.internal_id" class="padded-element">
+          </editable-label>
+        </div>
+        <div class="css-table-cell">{{modified(user) ? '*' : ''}}</div>
+        <div class="css-table-cell error">{{errors[user.id]}}</div>
+      </div>
+    </div>
+  </paper-dialog-scrollable>
+  <div class="buttons">
+    <paper-button dialog-dismiss ng-click="restore()">取消</paper-button>
+    <paper-button ng-click="save()">保存</paper-button>
+  </div>
+</paper-dialog>
+

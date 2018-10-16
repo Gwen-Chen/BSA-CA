@@ -1,0 +1,6 @@
+<select ng-options="course_groups[value].name for value in groupIds" ng-model="selected.id"
+    ng-change="select(selected.id)">
+</select>
+<iron-icon ng-if="isSysAdmin()" icon="editor:border-color"
+    class="small-icon selectable" ng-click="expand()">
+</iron-icon>

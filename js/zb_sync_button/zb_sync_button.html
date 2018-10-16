@@ -1,0 +1,14 @@
+<iron-icon class="selectable small-icon" icon="notification:sync"
+    ng-click="sync()" ng-class="{'in-progress': inprogress}">
+</iron-icon>
+<a href="{{zbUrl}}" target="_blank" title="打开智悲系统页面">
+  <iron-icon class="selectable small-icon" icon="open-in-new">
+	</iron-icon>
+</a>
+<span ng-if="inprogress">{{statusText}}</span>
+<span ng-if="!inprogress">{{endTimeLabel()}}</span>
+<iron-icon class="selectable small-icon" icon="cancel" title="取消"
+    ng-click="cancel()" ng-show="inprogress">
+</iron-icon>
+<progress-bar ng-show="inprogress" max="{{totalTasks}}" value="{{finished}}">
+</progress-bar>

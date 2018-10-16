@@ -1,0 +1,98 @@
+<link rel="import" href="bower_components/iron-icons/editor-icons.html">
+
+<navigate-bar class="right padded-element" navigate="navigate(direction)">
+</navigate-bar>
+<iron-icon icon="add-circle" class="add-icon clickable" ng-click="addTerm()"
+    title="新建学修安排">
+</iron-icon>
+<div ng-repeat="group in schedule_groups" class="padded-element">
+  <div class="center">
+    <h2>第{{group.term || '?'}}学期</h2>
+    <iron-icon icon="editor:border-color" title="编辑" ng-click="editGroup(group)" class="selectable">
+    </iron-icon>
+    <div ng-switch="!!group.end_time" class="inline">
+      <div class="inline" ng-switch-when="false">
+        <iron-icon icon="icons:delete" title="删除" ng-click="removeGroup(group)"
+            class="selectable" ng-if="group.id">
+        </iron-icon>
+        <span ng-if="group.term">
+          最早上报时间{{getEndTime(group)}}，
+          截止报数时间{{getReportCutTime(group)}} 
+        </span>
+      </div>
+      <span ng-switch-default>已上报于{{toDateTime(group.end_time)}}</span>
+    </div>
+  </div>
+  <schedule-group-editor ng-if="group.editing" group="group"></schedule-group-editor>
+  <div class="css-table odd-even schedule-tasks" ng-class="{'busy': sending}">
+    <div class="css-table-row header">
+      <div class="css-table-cell"><strong>周数</strong></div>
+      <div class="css-table-cell"><strong>时间</strong></div>
+      <div class="css-table-cell"><strong>上课内容</strong></div>
+      <div class="css-table-cell"><strong>{{group.course_group2 ? '串讲' : '总结'}}</strong></div>
+      <div class="css-table-cell"><strong>串讲</strong></div>
+      <div class="css-table-cell"><strong>放假备注</strong></div>
+      <div class="css-table-cell"></div>
+    </div>
+  
+    <div ng-repeat="schedule in group.schedules" class="css-table-row" id="{{schedule.id}}"
+        ng-class="{'vacation': vacation(schedule), 'selectable': vacation(schedule), 
+            'report-week': schedule.middle}"
+        title="{{schedule.middle ? '中期报数开始啦！' : ''}}"
+        draggable="{{vacation(schedule) && !!group.id}}"
+        ondragstart="dragSchedule(event)"
+        ondrop="dropSchedule(event)" ondragover="allowDrop(event)">
+      <div class="css-table-cell">{{$index + 1}}</div>
+      <div class="css-table-cell">{{getWeeklyTime(group, $index)}}</div>
+      <div class="css-table-cell">
+        {{group.courses[schedule.course_id].name}}
+        {{schedule.course_id2 ? '/ ' + group.courses[schedule.course_id2].name : ''}}
+      </div>
+      <div class="css-table-cell">
+        <user-picker ng-if="schedule.id && !vacation(schedule)" user-id="schedule.review"
+            user-list="users" user-picked="update(schedule, 'review', userId)">
+        </user-picker>
+      </div>
+      <div class="css-table-cell">
+        <user-picker ng-if="schedule.id && !vacation(schedule)" user-id="schedule.open"
+            user-list="users" user-picked="update(schedule, 'open', userId)">
+        </user-picker>
+      </div>
+      <div class="css-table-cell">
+        <editable-label ng-if="vacation(schedule)" value="schedule.notes"
+            on-change="update(schedule, 'notes', schedule.notes)"
+            class="padded-element">
+        </editable-label>
+      </div>
+      <div class="css-table-cell">
+        <iron-icon class="hover-icon" icon="add" title="在本节课后面添加假日"
+            ng-click="addVacation(group, schedule.id, $index)"
+            ng-if="group.id">
+        </iron-icon>
+        <iron-icon class="hover-icon" icon="delete" title="删除"
+            ng-if="vacation(schedule) && group.id"
+            ng-click="removeVacation(group, schedule.id)">
+        </iron-icon>
+        <iron-icon class="hover-icon" icon="mail"
+            ng-if="false && !vacation(schedule)"
+            ng-click="notify(group, schedule, $index)"
+            title="{{schedule.notified ? '上次发送' + schedule.notified : '发送上课通知'}}">
+        </iron-icon>
+      </div>
+      <div ng-if="schedule.middle" class="report-alert vacation"
+          title="修改上面中期报数时间，可调整报数周位置">
+        <iron-icon icon="report"></iron-icon>本周以后报数
+      </div>
+    </div>
+  </div>
+  <div ng-if="hasLimitedCourses(group)">
+    <h2>限制性课程</h2>
+    <div class="css-table odd-even schedule-tasks">
+      <div ng-repeat="course in group.limited_courses" class="css-table-row">
+        <div class="css-table-cell">{{course.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<task-arrangements ng-if="isYearLeader()" class-id="classId">
+</task-arrangements>

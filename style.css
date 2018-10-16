@@ -1,0 +1,832 @@
+body {
+  background: rgb(241, 241, 241);
+  font-family: arial,sans-serif;
+  font-size: 14px;
+  max-width: 1280px;
+  overflow-x: scroll;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.admin {
+  max-width: 1440px;
+  overflow-x: auto;  
+}
+
+.padded-element {
+  padding: 16px;
+}
+
+.h-padded-element {
+  padding: 4px 16px;
+}
+
+.app-bar {
+  background-color: #860200;
+  color: white;
+  height: 40px;
+  width: 100%;
+  font-size: 80%;
+}
+
+a.app-bar-link {
+  color: white;
+  padding-right: 4px;
+}
+
+div.page-container {
+  background: transparent;
+  width: 1136px;  
+}
+
+div.login-page {
+  background: transparent;
+  width: 400px;  
+}
+
+setup-tasks,
+tasks {
+  padding-top: 40px;
+  width: 220px;  
+}
+
+.white {
+  background: white;  
+}
+
+.vmargin {
+  margin: 16px 0;
+}
+
+.section {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 4px;
+  margin: 16px;
+  overflow: auto;
+}
+
+.css-table {
+  display: table;
+}
+
+.order-details-header,
+.css-table.odd-even > div:nth-child(odd) {
+  background-color: #CCC;
+}
+
+.css-table-row {
+  display: table-row;
+  padding: 4px 0;
+}
+
+.css-table-row.admin {
+  background-color: #860200 !important;
+}
+
+.css-table-row.selected {
+  background-color: blue !important;
+}
+
+.header {
+  background-color: gray !important;
+  color: white;
+}
+
+.css-table > .header {
+  height: 40px;
+}
+
+.css-table-cell {
+  display: table-cell;
+  padding: 4px 8px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;  
+}
+
+.left-line {
+  border-left: 1px solid;  
+}
+
+.section-header {
+  height: 30px;  
+}
+
+.count-input {
+  width: 80px;
+}
+
+input {
+  font-size: 80%;  
+}
+
+input[type="button"]:enabled,
+input[type="submit"]:enabled {
+  color: blue;
+}
+
+.hidden {
+  display: none;
+}
+
+schedule-tasks {
+  width: 630px;
+}
+
+.register-form,
+.login-form {
+  width: 400px;
+}
+
+.register-form input.css-table-cell,
+.login-form input.css-table-cell {
+  width: 200px;
+  margin: 4px 0;
+}
+
+.vacation {
+  background-color: #860200 !important;
+  color: white;  
+}
+
+.clickable,
+.selectable {
+  cursor: pointer;
+}
+
+.selectable:hover {
+  background-color: lightcyan;
+}
+
+.selected {
+  background-color: gray;
+  color: white;
+}
+
+.schedule-tasks {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 4px;
+  width: 800px;
+}
+
+hr {
+  width: 100%;
+}
+
+.user-info {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 4px;
+  margin: 16px;
+  width: 400px;
+}
+
+.user-score-editor,
+.user-info-editor {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 4px;
+  margin: 16px;
+  padding: 16px;
+  width: 300px;
+}
+
+.user-container {
+  flex-wrap: wrap;
+}
+
+select#state {
+  width: 140px;
+}
+
+.separator {
+  border-right: 1px solid white;
+  display: inline;
+  height: 10px;  
+  margin: 0 4px;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.name-field {
+  display: block;
+  width: 60px;
+}
+
+.compact-name-field {
+  max-width: 50px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.learning-groups {
+  height: 1000px;
+  overflow: scroll;
+  width: 1000px;
+}
+
+classes {
+  align-self: stretch;
+  background: white;
+  height: 100%;
+}
+
+.class-name.selected {
+  margin: 0 -16px;
+}
+
+.right-panel {
+  width: 1000px;
+}
+
+paper-tabs {
+  width: 1000px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex.center-align {
+  align-items: center;
+}
+
+.center-align {
+  text-align: center;
+}
+
+.task {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 4px;
+  padding-bottom: 16px;
+}
+
+iron-icon.small-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.class-list {
+  width: 200px;
+}
+
+.search-box {
+  margin-left: 100px;
+  width: 300px;
+}
+
+.import-analysis {
+  max-height: 300px;
+  overflow: scroll;
+  padding: 16px;
+  max-width: 1280px;
+}
+
+.preview-section {
+  max-height: 500px;
+  overflow: scroll;
+  padding: 16px;
+  max-width: 1280px;
+}
+
+paper-dialog {
+  overflow: auto;
+  padding: 16px;
+}
+
+paper-dialog#analysis,
+paper-dialog#preview {
+  height: 800px;
+  width: 1280px;
+}
+
+.css-table-cell.compact {
+  max-width: 150px;
+  overflow: hidden; 
+  padding: 0 2px;
+  text-overflow: ellipsis;
+}
+
+.diff-modified {
+  background: red;
+}
+
+.diff-added {
+  background: green;
+}
+
+.preview-progress {
+  width: 1100px;
+}
+
+.legend {
+  width: 100px;
+  padding: 0 16px;
+}
+
+.old-data {
+  text-decoration: line-through;  
+}
+
+paper-dialog > * {
+  margin-top: 0;  
+}
+
+iron-icon[icon="icons:done"] {
+  color: green;
+}
+
+iron-icon[icon="icons:error"] {
+  color: red;
+}
+
+paper-progress.task-progress {
+  width: 100%;
+}
+
+div.task-stats {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 4px;
+  margin-left: 16px;
+  width: 920px;
+}
+
+.task-stats > .progress-bar-container {
+  background: transparent;
+  width: 600px;
+}
+
+.progress-bar-container {
+  background: #e0e0e0;
+  height: 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.progress-bar {
+  background: #0f9d58;
+  height: 100%;
+}
+
+.group-editing {
+  width: 600px;
+}
+
+paper-dialog#course-editor-dlg {
+  width: 800px;
+}
+
+paper-dialog#create-course-dialog {
+  width: 400px;
+}
+
+.course-groups {
+  height: 500px;
+  overflow-y: auto;
+  width: 200px;
+}
+
+.course-category {
+  padding: 8px 0;
+}
+
+.course-category-selection {
+	padding-top: 16px;
+}
+.course-editor-content {
+  display: flex;
+  height: 500px;
+}
+
+.expandable.expanded {
+	transform: rotate(90deg);
+}
+
+.course-right-panel {
+  border-left: solid 1px;
+  height: 460px;
+  margin-left: 32px;
+  overflow-y: auto;
+}
+
+.course-list {
+	padding-top: 32px;
+  text-align: right;
+}
+
+.course-name {
+  width: 320px;
+}
+
+.class-editor {
+  width: 500px;
+  flex-wrap: wrap;
+}
+
+.error {
+  color: red;
+}
+
+.users {
+  position: relative;  
+}
+
+.comments {
+  max-width: 50px;
+}
+
+.email {
+  max-width: 160px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.compact-user {
+  max-width: 400px;  
+}
+
+.required-asterisk {
+  color: red;
+}
+
+.register-back {
+  background-image: url("images/background.png");
+  padding-top: 48px;
+}
+
+.register-form {
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+  font-size: 94%;
+  margin-top: -2px;  
+  width: 800px;
+}
+
+.register-type-chooser,
+.register-form form {
+  background-color: rgba(255, 255, 255, .7);
+  border-radius: 0 0 4px 4px;
+}
+
+.register-type-chooser {
+  margin-top: -16px;
+}
+
+.register-entry {
+  background-size: cover;
+  display: block;
+  height: 230px;
+  width: 230px;
+}
+
+.flex.justify-align {
+  justify-content: center;
+}
+
+.bodhi-class {
+  background-image: url("images/bodhi_class.png");
+}
+
+.bodhi-class:hover {
+  background-image: url("images/bodhi_class_hover.png");
+}
+
+.bodhi-merit {
+  background-image: url("images/bodhi_merit.png");
+}
+
+.bodhi-merit:hover {
+  background-image: url("images/bodhi_merit_hover.png");
+}
+
+.register-form .css-table-cell {
+  padding: 0px 8px;
+}
+
+.register-form fieldset {
+  border: none;
+}
+
+.register-form select,
+.register-form textarea,
+.register-form input {
+  border-color: gray;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2px;
+}
+
+.register-form .place-holder {
+  width: 24px;
+}
+
+.register-form .vertical-place-holder {
+  height: 48px;
+  vertical-align: middle;
+}
+
+.section-index {
+  background-color: #982838;
+  border-radius: 15px;
+  color: #eec94d;
+  display: table-cell;
+  font-size: 110%;
+  font-weight: bold;
+  height: 30px;
+  text-align: center;
+  vertical-align: middle;
+  width: 30px;
+}
+
+.section-title {
+  color: #982838;
+  font-size: 150%;
+  height: 64px;
+}
+
+.register-banner {
+  background-image: url("images/welcome.ca.png");
+  height: 348px;
+  position: relative;
+  width: 800px;
+}
+
+.register-banner.ca {
+  background-image: url("images/welcome.ca.png");
+}
+
+.outer-us {
+  color: white;
+  left: 100px;
+  top: 270px;
+  position: absolute;
+}
+
+.outer-us > a {
+  color: #eec94d;
+}
+
+paper-dialog#new-user-dlg {
+  max-height: 650px;
+}
+
+.check-complete {
+  text-align: right;
+}
+
+.completed-task {
+  background: lightgray;
+}
+
+.task-bar-container {
+  height: 40px;
+  position: relative;
+  width: 60px;
+}
+
+.task-bar {
+  background: green;
+  border-radius: 3px 3px 0 0;
+  bottom: 0;
+  max-height: 36px;
+  position: absolute;
+  width: 80%;
+}
+
+.task-bar-title {
+  bottom: 0;
+  position: absolute;
+}
+
+.in-progress {
+  cursor: wait;
+}
+
+.table-title {
+  padding: 0 32px;
+}
+
+.learning-record-cell {
+  vertical-align: middle;
+}
+
+.wide-schedule-table {
+  width: 900px;
+}
+
+address-filter {
+ max-width: 280px;
+}
+
+.indented {
+  padding-left: 16px;  
+}
+
+google-chart {
+  width: 700px;
+}
+
+.report-week {
+  background-color: green !important;
+  color: white;  
+  position: relative;
+}
+
+.report-alert {
+  padding: 2px 16px;
+  position: absolute;
+}
+
+.bio {
+  max-width: 200px;
+}
+
+.item-image-container {
+  height: 160px;
+  overflow: hidden;
+  width: 100px;
+}
+
+.item-image-container .item-image {
+  position: absolute;
+  width: 100px;
+}
+
+.item-image.small {
+  height: 100px;
+}
+
+body.white {
+  background: white;
+}
+
+.yellow-button {
+  background: #f0c14b;
+  border-radius: 3px;
+  border: 1px solid;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.shopping-cart {
+  color: blue;
+  cursor: pointer;
+  position: relative;
+}
+
+.cart-size {
+  color: red;
+  left: 25px;
+  position: absolute;
+  top: 5px;
+}
+
+.check-out-button {
+  width: 100px;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.shopping-cart-list .css-table-cell {
+  vertical-align: top;
+}
+
+.order-details-header.css-table,
+.shopping-cart-list.css-table {
+  width: 100%;
+}
+
+.css-table-row.deletable .delete-button {
+  visibility: hidden;
+}
+
+.css-table-row.deletable:hover .delete-button {
+  cursor: pointer;
+  visibility: visible;
+}
+
+.hover-icon {
+  visibility: hidden;
+}
+
+.css-table-row:hover .hover-icon {
+  cursor: pointer;
+  visibility: visible;
+}
+
+.bold {
+  border: 2px solid;
+}
+
+.split-cell,
+.invoice-address {
+  flex-grow: 1;
+}
+
+.invoice-page {
+  width: 600px;
+}
+
+.invoice-table {
+  width: 100%;
+}
+
+.order-details-line.section {
+  width: 800px;
+  margin: 16px auto;
+}
+
+.items.css-table {
+  width: 800px;
+}
+
+.item-description {
+  width: 360px;
+}
+
+.item-category {
+  width: 100px;
+}
+
+.top-border {
+  border-top: 1px solid;
+}
+
+.int-shipping {
+  padding-bottom: 16px;
+}
+
+.book-name {
+  max-width: 400px;
+}
+
+.busy {
+  cursor: wait;
+}
+
+.book-selection {
+  height: 100%;
+  width: 200px;
+}
+
+.class-book-list {
+  width: 560px;
+}
+
+iron-icon.add-icon {
+  color: blue;
+  height: 48px;
+  padding: 16px;
+  width: 48px;
+}
+
+.register-form input.register-button {
+  background-color: #972937;
+  border-radius: 4px;
+  color: #eec94d;
+  cursor: pointer;
+  font-size: 200%;
+  height: 36px;
+  margin: 48px;
+  width: 148px;
+}
+
+.copy-right {
+  color: white;
+  font-size: 120%;
+  padding: 32px;
+  text-align: center;
+}
+
+.merit-body {
+  background-image: url("images/body_bg.jpg");
+  width: 640px;
+}
+
+.add-course-button {
+	left: 230px;
+  position: absolute;
+  top: 30px;
+}
+
+.append-course-icon {
+  cursor: pointer;
+  position: absolute;
+  right: 64px;
+}

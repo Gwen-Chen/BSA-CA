@@ -1,0 +1,19 @@
+<span ng-switch="editor.editing">
+  <span ng-switch-when="true">
+    <input ng-model="userId" user-type-ahead ng-keyup="keyPressed($event)"
+        ng-blur="editor.editing = false" type="text" list="user-input-hints"
+        placeholder="输入名字或者法名查找...">
+    <datalist id="user-input-hints">
+      <option ng-repeat="user in hints"
+          value="{{users[user.id]}}">
+      </option>
+    </datalist>
+  </span>
+  <span ng-switch-default ng-switch="!users[userId]" class="clickable"
+      ng-click="editor.editing = true">
+   <iron-icon ng-switch-when="true" icon="editor:border-color"
+       class="small-icon">
+   </iron-icon>
+   <span ng-switch-default>{{users[userId]}}</span>
+ </span>
+</span>

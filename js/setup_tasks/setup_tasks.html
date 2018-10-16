@@ -1,0 +1,85 @@
+<div>
+  <div class="padded-element">
+	  <div class="task" ng-class="{'completed-task': user.welcomed}">
+	    <div class="header section-header">欢迎</div>
+	    <p>师兄，您好！</p>
+      <p>
+        随喜您成功注册为加拿大菩提学会（BSA-CA）的新成员！学会将会在5月安排共修时间和分班。
+        第一学期基础班课程《离幸福很近》和《找回最初的你》将于6月至11月，每周各1节课的进度完成。
+        <a href="https://docs.google.com/document/d/1jc8W1ncfqGjYLcS4jgzrnleeO7c8wwb6gK_U1PTpRmo/edit?ts=58916019"
+            target="_blank">
+          更多信息
+        </a>
+	    </p>
+      <hr>
+      <div class="check-complete">
+        <label>
+          <input type="checkbox" ng-model="user.enroll_tasks" ng-change="updateEnroll()"
+              bit-index="0">
+          我知道了
+        </label>
+      </div>
+	  </div>
+  </div>
+  <div ng-if="classIds.length" class="padded-element">
+    <div class="task" ng-class="{'completed-task': user.yyed}">
+      <div class="header section-header">选择共修时间</div>
+      <label>如果没有指明地点，以下均为加拿大东部时间
+        <select ng-options="getClassLabel(id) for id in classIds"
+            ng-model="class_pref.pref1" ng-change="update_pref()"></select>
+      </label>
+    </div>
+  </div>
+  <div class="padded-element">
+    <div class="task" ng-class="{'completed-task': user.yyed}">
+      <div class="header section-header">安装YY</div>
+      网络共修必须安装YY客户端，网页版本功能不全。
+      <div>Windows:
+        <a href="https://docs.google.com/document/d/1iobDYtupHpYZ4j5PuaLOfKCKbXw6SQo7yyIFWz8ivfM/edit"
+            target="_blank">YY平台使用.</a>
+      </div>
+      <div>Mac:<a href="php/redirect.php?url=http://www.yy.com/index/t/download" target="_blank">YY Mac版.</a></div>
+      <div>手机和Pad请用相应的App Store搜索"YY"或者"YY语音".</div>
+      <hr>
+      <div class="check-complete">
+        <label>
+          <input type="checkbox" ng-model="user.enroll_tasks" ng-change="updateEnroll()"
+              bit-index="2">
+          我装好了
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="padded-element">
+    <div class="task" ng-class="{'completed-task': user.tested}">
+      <div class="header section-header">YY麦克测试</div>
+      请找一位发心师兄或者朋友(或于周日加东时间11点到12点间去YY<a href="php/redirect.php?url=http://www.yy.com/82163759">82163759</a>频道)测试您用YY能正常收听和发言.
+      <hr>
+      <div class="check-complete">
+        <label>
+          <input type="checkbox" ng-model="user.enroll_tasks" ng-change="updateEnroll()"
+              bit-index="3">
+          我试过了
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="padded-element">
+    <div class="task" ng-class="{'completed-task': user.bookordered}">
+      <div class="header section-header">订书</div>
+        您可以选择使用
+        <a href="php/redirect.php?url=http://www.zhibeifw.com/cmsc/list.php?fid=812" target="_blank">
+          在线教材
+        </a>，也可以
+        <a href="order.html" target="_blank">订书</a>。
+      <hr>
+      <div class="check-complete">
+        <label>
+          <input type="checkbox" ng-model="user.enroll_tasks" ng-change="updateEnroll()"
+              bit-index="4">
+          我订好了(或者不需要)
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
