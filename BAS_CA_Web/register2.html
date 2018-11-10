@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="style.css?tag=201805202254">
-<title>加拿大智悲讲修菩提学会注册</title>
+<title>加拿大菩提学会注册</title>
 <script type="text/javascript">
   var submitting = false;
   function checkPassword() {
@@ -37,10 +37,10 @@
         'language=en&address=' + zip;
     httpGet(url).then(function(response) {
       var error = document.querySelector('#address-error');
-      if (response.status != 'OK') {
-        error.innerHTML = 'Invalid zip code';
-        return;
-      }
+      // if (response.status != 'OK') {
+      //   error.innerHTML = 'Invalid zip code';
+      //   return;
+      // }
 
       error.innerHTML = '';
       var address = window.countryData.fromGoogleResults(zip, response.results);
@@ -59,7 +59,7 @@
 
   <div class="center register-form">
     <div class="register-form register-banner">
-      <h3 class="padded-element outer-us">加拿大以外用户请到
+      <h3 class="padded-element outer-ca">加拿大以外用户请到
         <a href="php/redirect.php?url=http://www.zhibeifw.com/xxgx/baoming.php">
           智悲佛网
         </a>
