@@ -8,25 +8,28 @@ function getUrlParameter(name) {
 }
 
 function getCountryCode() {
-  var country = getUrlParameter('country');
-  if (country) return country.toUpperCase();
+  // var country = getUrlParameter('country');
+  // if (country) return country.toUpperCase();
 
-  if (location.hostname.includes('starter-ca-')) return 'CA';
+  // if (location.hostname.includes('starter-ca-')) return 'CA';
 
-  locale = navigator.language.split('-');
-  if (locale[1]) return locale[1].toUpperCase();
+  // locale = navigator.language.split('-');
+  // if (locale[1]) return locale[1].toUpperCase();
 
-  return 'US';
+  // return 'US';
+
+  return 'CA';
 }
 
 function adjustCountryContext() {
   var country = getCountryCode();
-  if (country == 'US') return;
-  
+  //if (country == 'US') return;
+  if (country == 'CA') return;
+
   document.title = '新学员注册';
 
-  var outerUs = document.querySelector('.outer-us');
-  outerUs.parentNode.removeChild(outerUs);
+  var outerCa = document.querySelector('.outer-ca');
+  outerCa.parentNode.removeChild(outerCa);
 
   var className = country.toLowerCase();
   document.querySelector('.register-banner').classList.add(className);
